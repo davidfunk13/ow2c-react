@@ -1,26 +1,30 @@
 import './App.css'
-// import auth from './utils/authInstance'
-import api from './utils/axiosInstance'
+// import api from './utils/axiosInstance'
+import {
+  RouterProvider,
+} from "react-router-dom";
+import router from './utils/router';
+
 
 
 function App() {
-  const handleLogin = async () => {
-    window.location.href = 'http://localhost:3001/api/battlenet/login'
-  }
-  const handleLogout = async () => {
-    api.post('/logout');
-  }
 
-  const getUser = async () => {
-    await api.get('/user');
-  }
-  return (
-    <>
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleLogout}>Logout</button>
-      <button onClick={getUser}>getUser</button>
-    </>
-  )
+  // const handleLogout = async () => {
+  //   api.post('/logout');
+  // }
+
+  // const getUser = async () => {
+  //   await api.get('/api/user');
+  // }
+
+  return <RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
+
+    // <>
+    //   <button onClick={handleLogin}>Login</button>
+    //   <button onClick={handleLogout}>Logout</button>
+    //   <button onClick={getUser}>getUser</button>
+    // </>
+  // )
 }
 
 export default App
