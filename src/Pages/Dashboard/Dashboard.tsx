@@ -13,7 +13,7 @@ const getUser = async () => {
 const handleLogout = async (navigate: NavigateFunction) => {
     localStorage.removeItem('token');
     await api.post('/logout');
-    // navigate('/');
+    navigate('/');
 }
 
 const DashboardPage: FC<DashboardPageProps> = () => {
