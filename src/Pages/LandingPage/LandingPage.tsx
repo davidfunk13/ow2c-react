@@ -7,7 +7,8 @@ interface LandingPageProps {
 }
 const handleLogin = async () => {
     await api.get('/sanctum/csrf-cookie');
-    window.location.href = 'http://localhost:3001/battlenet/login'
+
+    window.location.href = import.meta.env.PROD ?  `${import.meta.env.VITE_API_URI}/battlenet/login` : 'http://localhost:3001/battlenet/login'
 }
 
 const LandingPage: FC<LandingPageProps> = () => {
