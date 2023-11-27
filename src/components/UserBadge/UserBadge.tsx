@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { FC, Fragment, useRef, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
-import { selectUser, selectUserLoading } from "../../state/slices/userSlice";
+import { selectUser, selectUserLoading } from "../../state/slices/authenticationSlice";
 import { Badge, Box, Card, CircularProgress, Divider, Grid, IconButton, Typography, useTheme } from "@mui/material";
 import { AccountCircle as AccountCircleIcon, TaxiAlert } from "@mui/icons-material";
 import styles from "./UserBadge.styles";

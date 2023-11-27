@@ -12,6 +12,7 @@ import useRandomSplashImage from "../../hooks/useRandomSplashImage";
 import { splashImages } from "../../utils/splashImages"; // Assuming this is your generated list of images
 import loginString from "../../utils/loginString";
 import { gridStyle, logoStyle, paperGridStyle, rootContainerStyle } from "./LandingPage.styles";
+// import { Navigate } from "react-router-dom";
 
 const handleLogin: () => EmptyPromise = async () => {
     window.location.href = loginString;

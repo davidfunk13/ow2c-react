@@ -1,27 +1,27 @@
-import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCheckAuthQuery } from "../../services/authApi";
+import { useAppSelector } from "../../app/hooks";
+import { selectIsAuthenticated } from "../../state/slices/authenticationSlice";
 
 interface CallbackPageProps {
 
 }
 const CallbackPage: FC<CallbackPageProps> = () => {
     const navigate = useNavigate();
-
-    
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
+    useCheckAuthQuery(undefined, { skip: isAuthenticated });
     useEffect(() => {
-        // const parsedURL = new URL(window.location.href);
-        // const token = parsedURL.searchParams.get('token');
-        // if (token){
-        //     localStorage.setItem('token', JSON.stringify(token));
-        //     parsedURL.searchParams.delete('token');
-            navigate('/dashboard');
-        // }
-}, [navigate])
+        if (isAuthenticated) {
+
+            navigate("/");
+        }
+    }, [navigate, isAuthenticated]);
     return (
         <>
             Callback...
         </>
-    )
+    );
 };
 
 export default CallbackPage;

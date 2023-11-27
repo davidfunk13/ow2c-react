@@ -9,7 +9,7 @@ const initialState: UIState = {
     open: false,
 };
 
-export const uiReducer = createSlice({
+export const uiSlice = createSlice({
     name: "state/ui",
     initialState,
     reducers: {
@@ -25,8 +25,8 @@ export const uiReducer = createSlice({
     },
 });
 
-export const { toggleDrawer, openDrawer, closeDrawer } = uiReducer.actions;
+export const { toggleDrawer, openDrawer, closeDrawer } = uiSlice.actions;
 
 export const selectDrawerOpen = (state: RootState): boolean => state["state/ui"].open;
 
-export default uiReducer.reducer;
+export default uiSlice.reducer;

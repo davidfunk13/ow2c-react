@@ -6,6 +6,7 @@ import { Mail as MailIcon } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { closeDrawer, openDrawer, selectDrawerOpen } from "../../state/slices/uiSlice";
 import styles from "./AppDrawer.styles";
+import { Link } from "react-router-dom";
 
 interface AppDrawerProps { }
 
@@ -17,18 +18,14 @@ const generateDrawerItems = (): JSX.Element => {
             <Toolbar />
             <Box sx={{ overflow: "auto" }}>
                 <List>
-                    {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-                        <ListItem key={text}
-                            disablePadding
-                        >
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    <ListItem key={"games"} disablePadding >
+                        <ListItemButton component={Link} to={"/games"}>
+                            <ListItemIcon>
+                                <InboxIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Games"} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
                 <List>

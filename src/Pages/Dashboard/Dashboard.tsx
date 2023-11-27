@@ -7,26 +7,28 @@ import { FC } from "react";
 import AppDrawer from "../../components/AppDrawer/AppDrawer";
 import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toggleDrawer } from "../../state/slices/uiSlice";
 import { css } from "@emotion/react";
-import axios from "../../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
-import { EmptyPromise } from "../../types/EmptyPromise.type";
+import { Outlet, useNavigate } from "react-router-dom";
 import UserBadge from "../../components/UserBadge/UserBadge";
-import { useGetUserQuery } from "../../api/api";
+import { useGetUserQuery } from "../../services/userApi";
+import { dispatchLogout, selectUser } from "../../state/slices/authenticationSlice";
+import { useLogoutMutation } from "../../services/authApi";
+import { EmptyPromise } from "../../types/EmptyPromise.type";
 
 interface DashboardProps { }
 
 const Dashboard: FC<DashboardProps> = () => {
-    // Get the user from the API
-    useGetUserQuery();
+    const [logout] = useLogoutMutation();
+    const user = useAppSelector(selectUser);
+    const navigate = useNavigate();
+    useGetUserQuery(undefined, { skip: user?.id ? true : false });
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const menuIconStyle = css`color: ${theme.palette.common.white}`;
     const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-    const navigate = useNavigate();
 
     const OpenMenuButton = (): JSX.Element | null => {
         return !isDesktop ?
@@ -41,11 +43,11 @@ const Dashboard: FC<DashboardProps> = () => {
 
     const handleLogout = async (): EmptyPromise => {
         try {
-            await axios.post("/logout");
-            navigate("/");
+            await logout();
+            dispatch(dispatchLogout());
+            navigate("/login");
         } catch (error) {
-            //logout error
-            console.error({ error });
+            console.error("Logout failed", error);
         }
     };
 
@@ -79,6 +81,8 @@ const Dashboard: FC<DashboardProps> = () => {
             <AppDrawer />
             <Box component={"main"} sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
+                {/* This is where /games content will render */}
+                <Outlet />
             </Box>
         </Box >
     );
