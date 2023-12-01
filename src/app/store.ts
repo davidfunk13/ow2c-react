@@ -1,21 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import uiSlice from "../state/slices/uiSlice";
-import { userApi } from "../services/userApi";
-import { authApi } from "../services/authApi";
 import authenticationSlice from "../state/slices/authenticationSlice";
-import { gameApi } from "../services/gameApi";
+import baseApi from "../services/baseApi";
 
 export const store = configureStore({
     reducer: {
         ["state/ui"]: uiSlice,
         ["state/authentication"]: authenticationSlice,
-        [authApi.reducerPath]: authApi.reducer,
-        [userApi.reducerPath]: userApi.reducer,
-        [gameApi.reducerPath]: gameApi.reducer,
+        [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware()
-            .concat(userApi.middleware, authApi.middleware, gameApi.middleware);
+            .concat(baseApi.middleware);
     }
 });
 
