@@ -5,18 +5,13 @@ import Box from "@mui/material/Box";
 import BnetLogo from "../../assets/logos/bnet.png";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { EmptyPromise } from "../../types/EmptyPromise.type";
 import { FC } from "react";
 import { useTheme } from "@mui/material";
 import useRandomSplashImage from "../../hooks/useRandomSplashImage";
 import { splashImages } from "../../utils/splashImages"; // Assuming this is your generated list of images
 import loginString from "../../utils/loginString";
 import { gridStyle, logoStyle, paperGridStyle, rootContainerStyle } from "./LandingPage.styles";
-// import { Navigate } from "react-router-dom";
-
-const handleLogin: () => EmptyPromise = async () => {
-    window.location.href = loginString;
-};
+import { useGetCsrfTokenMutation } from "../../services/baseApi";
 
 interface LandingPageProps {
 
@@ -26,7 +21,16 @@ const LandingPage: FC<LandingPageProps> = () => {
     const theme = useTheme();
     const selectedImage = useRandomSplashImage(splashImages);
     const gridBgColor = theme.palette.mode === "light" ? theme.palette.grey[50] : theme.palette.grey[900];
+    // Initialize the mutations
+    const [getCsrfToken] = useGetCsrfTokenMutation();
 
+    const handleLoginClick = async () => {
+        // First, get the CSRF token
+        await getCsrfToken().unwrap();
+
+        // Then, initiate the OAuth login process
+        window.location.href = loginString;
+    };
     return (
         <Grid container
             component={"main"}
@@ -93,7 +97,7 @@ const LandingPage: FC<LandingPageProps> = () => {
                         item
                         xs={12}
                     >
-                        <Button onClick={handleLogin}
+                        <Button onClick={handleLoginClick}
                             fullWidth
                             variant={"contained"}
                         >

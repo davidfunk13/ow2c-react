@@ -16,12 +16,12 @@ function createGameTags(result: { data: Game[] } | undefined): Array<{ type: "Ga
 const gameApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getGames: builder.query<{ data: Game[] }, void>({
-            query: () => "/games",
+            query: () => "/api/games",
             providesTags: (result) => createGameTags(result),
         }),
         storeGame: builder.mutation<{ data: Game }, Partial<Game>>({
             query: (post) => ({
-                url: "/games",
+                url: "/api/games",
                 method: "POST",
                 body: post,
             }),
