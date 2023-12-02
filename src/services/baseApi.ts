@@ -32,26 +32,10 @@ export const baseApi = createApi({
         });
         return { data: void 0 }; // No data is expected to be returned
       },
-    }),
-    initiateOAuthLogin: builder.mutation<void, void>({
-      query: ( ) => ({
-        url: "/battlenet/login",
-        method: "POST",
-      }),
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          // OAuth flow complete, session should be established.
-          // Redirect or perform additional actions as needed.
-          window.location.href = "/dashboard";
-        } catch (error) {
-          // Handle login error, dispatch a notification, etc.
-        }
-      },
-    }),
+    })
   }),
 });
 
-export const { useGetCsrfTokenMutation, useInitiateOAuthLoginMutation } = baseApi;
+export const { useGetCsrfTokenMutation } = baseApi;
 
 export default baseApi;
