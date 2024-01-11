@@ -3,15 +3,16 @@ import {
   redirect
 } from "react-router-dom";
 import { store } from "../../app/store";
-import LandingPage from "../../pages/LandingPage/LandingPage";
 import { Dashboard } from "@mui/icons-material";
 import DashboardPage from "../../pages/Dashboard/DashboardPage";
 import GamesPage from "../../pages/Games/Games";
-import CallbackPage from "../../pages/Callback/Callback";
+import CallbackPage from "../../pages/Callback/Callback"
+import LandingPage from "../../pages/LandingPage/LandingPage"
+import { AUTHENTICATION_STATE } from "../../state/authenticationSlice";
 
 const isLoggedIn = (): boolean => {
   const state = store.getState();
-  const isAuthenticated = state["state/authentication"].isAuthenticated;
+  const isAuthenticated = state[AUTHENTICATION_STATE].isAuthenticated;
   return isAuthenticated;
 };
 
