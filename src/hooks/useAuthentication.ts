@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import { AUTHENTICATION_STATE } from '../state/authenticationSlice';
 import { RootState } from '../app/store';
 import { useAppSelector } from '../app/hooks';

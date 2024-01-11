@@ -9,6 +9,7 @@ import { useAppDrawer } from "./appDrawerHooks";
 
 interface AppDrawerProps { }
 
+//convert these styles to new hook pattern.
 const { drawerStyles } = styles;
 
 const generateDrawerItems = (): JSX.Element => {
