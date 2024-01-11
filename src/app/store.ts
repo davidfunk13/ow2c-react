@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import uiSlice from "../state/slices/uiSlice";
-import authenticationSlice from "../state/slices/authenticationSlice";
+import authenticationSlice, { AUTHENTICATION_STATE } from "../state/authenticationSlice";
 import baseApi from "../services/baseApi";
+import appDrawerSlice, { APP_DRAWER_STATE } from "../features/AppDrawer/appDrawerSlice";
+import appModalSlice, { APP_MODAL_STATE } from "../features/AppModal/appModalSlice";
 
 export const store = configureStore({
     reducer: {
-        ["state/ui"]: uiSlice,
-        ["state/authentication"]: authenticationSlice,
+        [APP_DRAWER_STATE]: appDrawerSlice,
+        [APP_MODAL_STATE]: appModalSlice,
+        [AUTHENTICATION_STATE]: authenticationSlice,
         [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {

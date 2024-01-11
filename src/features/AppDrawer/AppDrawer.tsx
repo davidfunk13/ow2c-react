@@ -3,10 +3,9 @@ import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, Lis
 import { FC } from "react";
 import { Inbox as InboxIcon } from "@mui/icons-material";
 import { Mail as MailIcon } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { closeDrawer, openDrawer, selectDrawerOpen } from "../../state/slices/uiSlice";
 import styles from "./AppDrawer.styles";
 import { Link } from "react-router-dom";
+import { useAppDrawer } from "./appDrawerHooks";
 
 interface AppDrawerProps { }
 
@@ -59,15 +58,15 @@ const DesktopDrawer: FC<AppDrawerProps> = () => {
 };
 
 const MobileDrawer: FC<AppDrawerProps> = () => {
-    const dispatch = useAppDispatch();
-    const drawerOpen = useAppSelector(selectDrawerOpen);
+    const { isOpen, toggleDrawer } = useAppDrawer();
 
     return (
         <SwipeableDrawer
             elevation={0}
-            open={drawerOpen}
-            onClose={(): { payload: undefined; type: "state/ui/closeDrawer"; } => dispatch(closeDrawer())}
-            onOpen={(): { payload: undefined; type: "state/ui/openDrawer"; } => dispatch(openDrawer())}
+            open={isOpen}
+            onClose={toggleDrawer}
+            onOpen={toggleDrawer}
+
 
             variant={"temporary"}
             css={drawerStyles}

@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckAuthQuery } from "../../services/authApi";
 import { useAppSelector } from "../../app/hooks";
-import { selectIsAuthenticated } from "../../state/slices/authenticationSlice";
+import { selectIsAuthenticated } from "../../state/authenticationSlice";
 
 interface CallbackPageProps {
 

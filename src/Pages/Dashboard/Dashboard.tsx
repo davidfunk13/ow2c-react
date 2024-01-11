@@ -4,18 +4,19 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
-import AppDrawer from "../../components/AppDrawer/AppDrawer";
+import AppDrawer from "../../features/AppDrawer/AppDrawer";
 import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { toggleDrawer } from "../../state/slices/uiSlice";
 import { css } from "@emotion/react";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserBadge from "../../components/UserBadge/UserBadge";
+import UserBadge from "../../common/components/UserBadge/UserBadge";
 import { useGetUserQuery } from "../../services/userApi";
-import { dispatchLogout, selectUser } from "../../state/slices/authenticationSlice";
+import { dispatchLogout, selectUser } from "../../state/authenticationSlice";
 import { useLogoutMutation } from "../../services/authApi";
 import { EmptyPromise } from "../../types/EmptyPromise.type";
+import { useAppDrawer } from "../../features/AppDrawer/appDrawerHooks";
+import useDashboardStyles from "./useDashboardStyles";
 
 interface DashboardProps { }
 
@@ -23,23 +24,27 @@ const Dashboard: FC<DashboardProps> = () => {
     const [logout] = useLogoutMutation();
     const user = useAppSelector(selectUser);
     const navigate = useNavigate();
+    const { appBarStyles } = useDashboardStyles();
+
     useGetUserQuery(undefined, { skip: user?.id ? true : false });
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
-    const menuIconStyle = css`color: ${theme.palette.common.white}`;
     const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
     const OpenMenuButton = (): JSX.Element | null => {
+        const { toggleDrawer } = useAppDrawer();
+        const { menuIconStyles } = useDashboardStyles();
+
         return !isDesktop ?
             <Grid item>
-                <IconButton onClick={(): { payload: undefined, type: "state/ui/toggleDrawer" } => dispatch(toggleDrawer())}>
-                    <MenuIcon css={menuIconStyle} />
+                <IconButton onClick={toggleDrawer}>
+                    <MenuIcon css={menuIconStyles} />
                 </IconButton>
-            </Grid> : null;
+            </Grid>
+            : null;
     };
 
-    const appBarStyles = css`z-index: ${theme.zIndex.drawer + 1}`;
 
     const handleLogout = async (): EmptyPromise => {
         try {

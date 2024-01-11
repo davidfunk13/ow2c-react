@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import drawerWidth from "../../utils/drawerWidth";
+import drawerWidth from "../../common/utils/drawerWidth";
 
 const styles = {
     drawerStyles: css`

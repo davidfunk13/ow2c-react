@@ -1,9 +1,9 @@
 import { SerializedStyles } from "@emotion/react";
-import { Theme, css } from "@mui/material";
+import { Theme, css, useTheme } from "@mui/material";
 
 const styles = {
     userBadgeCardStyles: (theme: Theme): SerializedStyles => css`
-        position: absolute;
+    position: absolute;
         top: 8vh;
         left: -10rem;
         width: 20rem; 
@@ -16,7 +16,6 @@ const styles = {
             color: ${theme.palette.text.primary};
             margin-bottom: ${theme.spacing(1)};
         }
-
         .MuiTypography-body1 {
             color: ${theme.palette.text.secondary};
         }
@@ -26,4 +25,14 @@ const styles = {
     `,
 };
 
-export default styles;
+
+const useUserBadgeStyles = () => {
+    const theme = useTheme();
+
+    return {
+        userBadgeCardStyles: styles.userBadgeCardStyles(theme),
+        relativeAnchorStyles: styles.relativeAnchorStyles
+    };
+};
+
+export default useUserBadgeStyles;

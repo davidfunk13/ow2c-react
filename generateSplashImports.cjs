@@ -10,7 +10,7 @@ const path = require("path");
 
 try {
     const imagesDir = path.join(__dirname, "src/assets/splash");
-    const output = path.join(__dirname, "src/utils/splashImages.ts");
+    const output = path.join(__dirname, "src/common/utils/splashImages.ts");
 
     let imports = "";
     let imageArray = [];
@@ -20,7 +20,7 @@ try {
     files.forEach((file, index) => {
         const varName = `image${index}`;
 
-        const filePath = path.join("../assets/splash/", file).replace(/\\/g, "/");
+        const filePath = path.join("../../assets/splash/", file).replace(/\\/g, "/");
         console.log(`import ${varName} from "${filePath}";`);
         imports += `import ${varName} from "${filePath}";\n`;
         imageArray.push(varName);

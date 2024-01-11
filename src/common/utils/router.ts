@@ -2,12 +2,12 @@ import {
   createBrowserRouter,
   redirect
 } from "react-router-dom";
-import LandingPage from "../Pages/LandingPage/LandingPage";
-import Dashboard from "../Pages/Dashboard/Dashboard";
-import DashboardPage from "../Pages/Dashboard/DashboardPage";
-import GamesPage from "../Pages/Games/Games";
-import CallbackPage from "../Pages/Callback/Callback";
-import { store } from "../app/store";
+import LandingPage from "../../pages/LandingPage/LandingPage";
+import Dashboard from "../../pages/Dashboard/Dashboard";
+import DashboardPage from "../../pages/Dashboard/DashboardPage";
+import GamesPage from "../../pages/Games/Games";
+import CallbackPage from "../../pages/Callback/Callback";
+import { store } from "../../app/store";
 
 const isLoggedIn = (): boolean => {
   const state = store.getState();

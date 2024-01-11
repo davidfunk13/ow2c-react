@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-import User from "../../types/User.type";
-import { userApi } from "../../services/userApi";
-import { authApi } from "../../services/authApi";
-import AuthCheckResponse from "../../types/AuthCheckResponse.type";
+import type { RootState } from "../app/store";
+import User from "../types/User.type";
+import { userApi } from "../services/userApi";
+import { authApi } from "../services/authApi";
+import AuthCheckResponse from "../types/AuthCheckResponse.type";
 
 interface AuthenticationState {
     authLoading: boolean
@@ -19,8 +19,10 @@ const initialState: AuthenticationState = {
     isAuthenticated: localStorage.getItem("isAuthenticated") ? JSON.parse(localStorage.getItem("isAuthenticated")!) : false,
 };
 
+export const AUTHENTICATION_STATE = "state/authentication";
+
 export const authenticationSlice = createSlice({
-    name: "state/authentication",
+    name: AUTHENTICATION_STATE,
     initialState,
     reducers: {
         dispatchLogout: (state) => {
@@ -65,10 +67,10 @@ export const authenticationSlice = createSlice({
 
 });
 
-export const selectUser = (state: RootState): User | null => state["state/authentication"].user;
-export const selectUserLoading = (state: RootState): boolean => state["state/authentication"].userLoading;
-export const selectAuthLoading = (state: RootState): boolean => state["state/authentication"].authLoading;
-export const selectIsAuthenticated = (state: RootState): boolean => state["state/authentication"].isAuthenticated;
+export const selectUser = (state: RootState): User | null => state[AUTHENTICATION_STATE].user;
+export const selectUserLoading = (state: RootState): boolean => state[AUTHENTICATION_STATE].userLoading;
+export const selectAuthLoading = (state: RootState): boolean => state[AUTHENTICATION_STATE].authLoading;
+export const selectIsAuthenticated = (state: RootState): boolean => state[AUTHENTICATION_STATE].isAuthenticated;
 
 export const { dispatchLogout } = authenticationSlice.actions;
 
