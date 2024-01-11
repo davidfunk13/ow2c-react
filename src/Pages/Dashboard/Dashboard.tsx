@@ -8,7 +8,6 @@ import AppDrawer from "../../features/AppDrawer/AppDrawer";
 import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { css } from "@emotion/react";
 import { Outlet, useNavigate } from "react-router-dom";
 import UserBadge from "../../common/components/UserBadge/UserBadge";
 import { useGetUserQuery } from "../../services/userApi";
