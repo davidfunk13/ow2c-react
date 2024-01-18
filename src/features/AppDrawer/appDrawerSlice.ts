@@ -10,7 +10,7 @@ const initialState: UIState = {
 
 export const APP_DRAWER_STATE = "state/appDrawer";
 
-export const appDrawerSlice = createSlice({
+const appDrawerSlice = createSlice({
     name: APP_DRAWER_STATE,
     initialState,
     reducers: {

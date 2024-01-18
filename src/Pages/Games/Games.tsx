@@ -3,6 +3,12 @@ import { FC } from "react";
 import { useGetGamesQuery, useStoreGameMutation } from "../../services/gameApi";
 import { DataGrid } from "@mui/x-data-grid";
 import Game from "../../types/Game.interface";
+import gameTableColumns from "./components/gamesTableColumns";
+import AppModal from "../../features/AppModal/AppModal";
+import { useAppModal } from "../../features/AppModal/useAppModal";
+import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
+import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap";
+import SelectHero from "../../features/MultiStepForm/forms/AddGameForm/SelectHero";
 
 interface GamesPageProps { }
 
@@ -16,14 +22,12 @@ const GamesPage: FC<GamesPageProps> = () => {
         game_mode: 1,
     };
     const { data: games,
-        // isLoading: getGamesLoading,
+        isLoading: getGamesLoading,
         // isError,
         // error
     } = useGetGamesQuery();
-
-    const [storeGame,
-        // { isLoading: storeGameLoading },
-    ] = useStoreGameMutation();
+    const { toggleModal } = useAppModal();
+    const [storeGame, { isLoading: storeGameLoading }] = useStoreGameMutation();
 
     const handleStoreGame = async () => {
         try {
@@ -32,6 +36,7 @@ const GamesPage: FC<GamesPageProps> = () => {
             console.error("Store Game failed", error);
         }
     };
+
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -40,74 +45,28 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Button onClick={handleStoreGame}>Store Game</Button>
+                <Button onClick={handleStoreGame}>
+                    Store Game
+                </Button>
             </Grid>
-
+            <Grid item xs={12}>
+                <Button onClick={toggleModal}>
+                    Add Game
+                </Button>
+            </Grid>
             <Grid item xs={12}>
                 <Typography variant={"h2"}>
                     <DataGrid
-                        columns={[
-                            {
-                                field: "id",
-                                headerName: "ID",
-                                width: 70
-                            },
-                            {
-                                headerName: "Game Type",
-                                field: "game_type",
-                                width: 130
-                            },
-                            {
-                                headerName: "Result",
-                                field: "result",
-                                width: 130
-                            },
-                            {
-                                headerName: "Map",
-                                field: "map_played",
-                                width: 130
-                            },
-                            {
-                                headerName: "Hero",
-                                field: "hero_played",
-                                width: 130
-                            },
-                            {
-                                headerName: "Additional Hero 1",
-                                field: "additional_hero_played_1",
-                                width: 130
-                            },
-                            {
-                                headerName: "Additional Hero 2",
-                                field: "additional_hero_played_2",
-                                width: 130
-                            },
-                            {
-                                headerName: "Game Mode",
-                                field: "game_mode",
-                                width: 130
-                            },
-                            {
-                                headerName: "Date",
-                                field: "created_at",
-                                width: 130
-                            },
-                            {
-                                headerName: "Updated",
-                                field: "updated_at",
-                                width: 130
-                            },
-                            {
-                                headerName: "Deleted",
-                                field: "deleted_at",
-                                width: 130
-                            },
-                        ]}
+                        columns={gameTableColumns}
                         rows={games?.data.length ? games.data : []}
+                        loading={getGamesLoading || storeGameLoading}
+                        autoHeight
                     />
-
                 </Typography>
             </Grid>
+            <AppModal>
+                <MultiStepForm steps={[SelectMap, SelectHero]} />
+            </AppModal>
         </Grid >
     );
 };

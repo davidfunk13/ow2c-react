@@ -9,12 +9,12 @@ import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserBadge from "../../common/components/UserBadge/UserBadge";
+import UserBadge from "../../features/UserBadge/UserBadge";
 import { useGetUserQuery } from "../../services/userApi";
 import { dispatchLogout, selectUser } from "../../state/authenticationSlice";
 import { useLogoutMutation } from "../../services/authApi";
 import { EmptyPromise } from "../../types/EmptyPromise.type";
-import { useAppDrawer } from "../../features/AppDrawer/appDrawerHooks";
+import { useAppDrawer } from "../../features/AppDrawer/useAppDrawer";
 import useDashboardStyles from "./useDashboardStyles";
 
 interface DashboardProps { }

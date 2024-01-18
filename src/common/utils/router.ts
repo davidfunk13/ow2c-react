@@ -3,12 +3,12 @@ import {
   redirect
 } from "react-router-dom";
 import { store } from "../../app/store";
-import { Dashboard } from "@mui/icons-material";
+import { AUTHENTICATION_STATE } from "../../state/authenticationSlice";
+import LandingPage from "../../pages/LandingPage/LandingPage";
 import DashboardPage from "../../pages/Dashboard/DashboardPage";
 import GamesPage from "../../pages/Games/Games";
-import CallbackPage from "../../pages/Callback/Callback"
-import LandingPage from "../../pages/LandingPage/LandingPage"
-import { AUTHENTICATION_STATE } from "../../state/authenticationSlice";
+import CallbackPage from "../../pages/Callback/Callback";
+import Dashboard from "../../pages/Dashboard/Dashboard";
 
 const isLoggedIn = (): boolean => {
   const state = store.getState();
@@ -45,7 +45,6 @@ const router = createBrowserRouter([
     children: [
       { path: "", Component: DashboardPage },
       { path: "games", Component: GamesPage },
-      // ... other child routes ...
     ],
   },
   {

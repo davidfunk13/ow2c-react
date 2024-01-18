@@ -10,22 +10,16 @@ const initialState: UIState = {
 
 export const APP_MODAL_STATE = "state/appModal";
 
-export const appModalSlice = createSlice({
+const appModalSlice = createSlice({
     name: APP_MODAL_STATE,
     initialState,
     reducers: {
         toggleModal: (state) => {
             state.open = !state.open;
-        },
-        openModal: (state) => {
-            state.open = true;
-        },
-        closeModal: (state) => {
-            state.open = false;
         }
     },
 });
 
-export const { toggleModal, openModal, closeModal } = appModalSlice.actions;
+export const { toggleModal } = appModalSlice.actions;
 
 export default appModalSlice.reducer;

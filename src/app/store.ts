@@ -2,13 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import authenticationSlice, { AUTHENTICATION_STATE } from "../state/authenticationSlice";
 import baseApi from "../services/baseApi";
 import appDrawerSlice, { APP_DRAWER_STATE } from "../features/AppDrawer/appDrawerSlice";
-import appModalSlice, { APP_MODAL_STATE } from "../features/AppModal/appModalSlice";
+import appModalSlce, { APP_MODAL_STATE } from "../features/AppModal/appModalSlce";
+import multiStepFormSlice, { MULTI_STEP_FORM } from "../features/MultiStepForm/multiStepFormSlice";
 
 export const store = configureStore({
     reducer: {
         [APP_DRAWER_STATE]: appDrawerSlice,
-        [APP_MODAL_STATE]: appModalSlice,
+        [APP_MODAL_STATE]: appModalSlce,
         [AUTHENTICATION_STATE]: authenticationSlice,
+        [MULTI_STEP_FORM]: multiStepFormSlice,
         [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {

@@ -5,7 +5,7 @@ import { Inbox as InboxIcon } from "@mui/icons-material";
 import { Mail as MailIcon } from "@mui/icons-material";
 import styles from "./AppDrawer.styles";
 import { Link } from "react-router-dom";
-import { useAppDrawer } from "./appDrawerHooks";
+import { useAppDrawer } from "./useAppDrawer";
 
 interface AppDrawerProps { }
 
