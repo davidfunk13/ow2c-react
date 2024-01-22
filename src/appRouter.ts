@@ -50,3 +50,5 @@ const router = createBrowserRouter([
         Component: CallbackPage
     },
 ]);
+
+export default router;
