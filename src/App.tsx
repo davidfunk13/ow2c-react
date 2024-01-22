@@ -2,11 +2,11 @@ import { FC } from "react";
 import { RouterProvider, createBrowserRouter, redirect } from "react-router-dom";
 import { store } from "./app/store";
 import { AUTHENTICATION_STATE } from "./state/authenticationSlice";
-import LandingPage from "../src/pages/LandingPage/LandingPage.page";
+import LandingPage from "./fuck/LandingPage/LandingPage.page";
 import Layout from "./layouts/Layout/Layout";
-import Dashboard from "./pages/Dashboard/Dashboard.page";
-import GamesPage from "./pages/Games/Games.page";
-import CallbackPage from "./pages/Callback/Callback.page";
+import Dashboard from "./fuck/Dashboard/Dashboard.page";
+import GamesPage from "./fuck/Games/Games.page";
+import CallbackPage from "./fuck/Callback/Callback.page";
 
 const fallbackElement = <p>Initial Load...</p>;
 
