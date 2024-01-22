@@ -54,6 +54,6 @@ const gameTableColumns = [
         field: "deleted_at",
         width: 130
     },
-]
+];
 
 export default gameTableColumns;

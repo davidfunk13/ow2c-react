@@ -7,6 +7,7 @@ import { selectIsAuthenticated } from "../../state/authenticationSlice";
 interface CallbackPageProps {
 
 }
+
 const CallbackPage: FC<CallbackPageProps> = () => {
     const navigate = useNavigate();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);

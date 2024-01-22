@@ -44,7 +44,6 @@ const Dashboard: FC<DashboardProps> = () => {
             : null;
     };
 
-
     const handleLogout = async (): EmptyPromise => {
         try {
             await logout();
