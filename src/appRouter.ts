@@ -1,10 +1,10 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import { AUTHENTICATION_STATE } from "./state/authenticationSlice";
-import LandingPage from "./pages/LandingPage/LandingPage";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import DashboardPage from "./pages/Dashboard/DashboardPage";
-import GamesPage from "./pages/Games/Games";
-import CallbackPage from "./pages/Callback/Callback";
+import LandingPage from "./pages/LandingPage/LandingPage.tsx";
+import Dashboard from "./pages/Dashboard/Dashboard.tsx";
+import DashboardPage from "./pages/Dashboard/DashboardPage.tsx";
+import GamesPage from "./pages/Games/Games.tsx";
+import CallbackPage from "./pages/Callback/Callback.tsx";
 import { store } from "./app/store";
 
 const isLoggedIn = (): boolean => {

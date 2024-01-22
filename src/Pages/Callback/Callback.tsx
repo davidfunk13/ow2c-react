@@ -11,13 +11,16 @@ interface CallbackPageProps {
 const CallbackPage: FC<CallbackPageProps> = () => {
     const navigate = useNavigate();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
+
     useCheckAuthQuery(undefined, { skip: isAuthenticated });
+
     useEffect(() => {
         if (isAuthenticated) {
 
             navigate("/");
         }
     }, [navigate, isAuthenticated]);
+
     return (
         <>
             Callback...
