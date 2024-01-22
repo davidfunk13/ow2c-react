@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 type HeroCategories = {
@@ -11,7 +11,7 @@ type HeroCategories = {
 const OverwatchHeroSelector = () => {
     const { register, formState: { errors } } = useFormContext();
     const [heroCategory, setHeroCategory] = useState<keyof HeroCategories | "">("");
-    const [selectedHero, setSelectedHero] = useState("");
+    const [, setSelectedHero] = useState("");
 
     const heroCategories: HeroCategories = {
         Tanks: ["Reinhardt", "D.Va", "Winston"],

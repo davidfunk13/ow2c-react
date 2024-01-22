@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { RouterProvider } from "react-router-dom";
-import router from "./common/utils/router";
+import router from "./router";
 
 const fallbackElement = <p>Initial Load...</p>;
 
