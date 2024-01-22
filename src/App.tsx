@@ -2,7 +2,7 @@ import { FC } from "react";
 import { RouterProvider, createBrowserRouter, redirect } from "react-router-dom";
 import { store } from "./app/store";
 import { AUTHENTICATION_STATE } from "./state/authenticationSlice";
-import LandingPage from "./pages/LandingPage/LandingPage.page";
+import LandingPage from "../src/pages/LandingPage/LandingPage.page";
 import Layout from "./layouts/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard.page";
 import GamesPage from "./pages/Games/Games.page";
