@@ -1,11 +1,11 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import { AUTHENTICATION_STATE } from "./state/authenticationSlice";
-import LandingPage from "./pages/LandingPage/LandingPage.tsx";
-import Dashboard from "./pages/Dashboard/Dashboard.tsx";
-import DashboardPage from "./pages/Dashboard/DashboardPage.tsx";
-import GamesPage from "./pages/Games/Games.tsx";
-import CallbackPage from "./pages/Callback/Callback.tsx";
 import { store } from "./app/store";
+import LandingPage from "./pages/LandingPage/LandingPage.page";
+import Layout from "./layouts/Layout/Layout";
+import Dashboard from "./pages/Dashboard/Dashboard.page.tsx";
+import GamesPage from "./pages/Games/Games.page.tsx";
+import CallbackPage from "./pages/Callback/Callback.page.tsx";
 
 const isLoggedIn = (): boolean => {
     const state = store.getState();
@@ -38,9 +38,9 @@ const router = createBrowserRouter([
     {
         path: "/",
         loader: protectedLoader,
-        Component: Dashboard,
+        Component: Layout,
         children: [
-            { path: "", Component: DashboardPage },
+            { path: "", Component: Dashboard },
             { path: "games", Component: GamesPage },
         ],
     },

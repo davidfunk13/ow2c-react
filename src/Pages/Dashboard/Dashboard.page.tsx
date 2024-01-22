@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { Grid, Typography } from "@mui/material";
 
-interface DashboardPageProps { }
+interface DashboardProps { }
 
-const DashboardPage: FC<DashboardPageProps> = () => {
+const Dashboard: FC<DashboardProps> = () => {
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -15,4 +15,4 @@ const DashboardPage: FC<DashboardPageProps> = () => {
     );
 };
 
-export default DashboardPage;
+export default Dashboard;

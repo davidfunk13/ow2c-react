@@ -6,7 +6,7 @@ const styles = {
     appBarStyles: (theme: Theme): SerializedStyles => css`z-index: ${theme.zIndex.drawer + 1}`
 };
 
-const useDashboardStyles = () => {
+const useLayoutStyles = () => {
     const theme = useTheme();
 
     return {
@@ -15,4 +15,4 @@ const useDashboardStyles = () => {
     };
 };
 
-export default useDashboardStyles;
+export default useLayoutStyles;

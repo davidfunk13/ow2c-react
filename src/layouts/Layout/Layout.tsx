@@ -15,15 +15,15 @@ import { dispatchLogout, selectUser } from "../../state/authenticationSlice";
 import { useLogoutMutation } from "../../services/authApi";
 import { EmptyPromise } from "../../types/EmptyPromise.type";
 import { useAppDrawer } from "../../features/AppDrawer/useAppDrawer";
-import useDashboardStyles from "./useDashboardStyles";
+import useLayoutStyles from "./useLayoutStyles";
 
-interface DashboardProps { }
+interface LayoutProps { }
 
-const Dashboard: FC<DashboardProps> = () => {
+const Layout: FC<LayoutProps> = () => {
     const [logout] = useLogoutMutation();
     const user = useAppSelector(selectUser);
     const navigate = useNavigate();
-    const { appBarStyles } = useDashboardStyles();
+    const { appBarStyles } = useLayoutStyles();
 
     useGetUserQuery(undefined, { skip: user?.id ? true : false });
 
@@ -33,7 +33,7 @@ const Dashboard: FC<DashboardProps> = () => {
 
     const OpenMenuButton = (): JSX.Element | null => {
         const { toggleDrawer } = useAppDrawer();
-        const { menuIconStyles } = useDashboardStyles();
+        const { menuIconStyles } = useLayoutStyles();
 
         return !isDesktop ?
             <Grid item>
@@ -91,4 +91,4 @@ const Dashboard: FC<DashboardProps> = () => {
     );
 };
 
-export default Dashboard;
+export default Layout;
