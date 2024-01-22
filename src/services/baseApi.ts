@@ -23,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQuery,
-  tagTypes: ["Game"],
+  tagTypes: ["Game", "Map"],
   endpoints: (builder) => ({
     getCsrfToken: builder.mutation<void, void>({
       queryFn: async () => {

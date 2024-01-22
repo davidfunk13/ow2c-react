@@ -29,6 +29,7 @@ const LandingPage: FC<LandingPageProps> = () => {
         await getCsrfToken().unwrap();
 
         // Then, initiate the OAuth login process
+        console.log(loginString);
         window.location.href = loginString;
     };
 
