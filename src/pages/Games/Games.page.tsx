@@ -39,8 +39,8 @@ const GamesPage: FC<GamesPageProps> = () => {
     };
 
     const addGameSteps = [
-        SelectGameType,
-        SelectMap,
+        <SelectGameType key={"Select Game Type"}/>,
+        <SelectMap key={"Select Map"}/>,
     ];
 
     return (
@@ -71,7 +71,7 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <AppModal>
-                <MultiStepForm steps={addGameSteps} />
+                <MultiStepForm steps={addGameSteps}  />
             </AppModal>
         </Grid >
     );

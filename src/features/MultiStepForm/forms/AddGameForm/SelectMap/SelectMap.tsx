@@ -3,15 +3,21 @@ import { useFormContext } from "react-hook-form";
 import { useGetMapsQuery } from "../../../../../services/mapApi";
 import OverwatchMap from "../../../../../types/OverwatchMap.type";
 import ResponsiveGrid from "../../../../../components/ResponsiveGrid/ResponsiveGrid";
+import { useEffect } from "react";
 // import ResponsiveGrid from "../../../../../components/ResponsiveGrid/ResponsiveGrid";
 type SelectMapProps = Record<string, unknown>;
 
 const SelectMap: React.FC<SelectMapProps> = () => {
-    const { register, formState: { errors }, getValues } = useFormContext();
-    const gameType = getValues("gameType");
+    const { register, formState: { errors }, getValues, unregister } = useFormContext();
+    const gameType = getValues("selectedOption");
     const { data, isFetching, isLoading } = useGetMapsQuery(gameType);
 
-    register("map", { required: "Map selection is required" });
+    useEffect(() => {
+        register("map", { required: "Map selection is required" });
+        return () => {
+            unregister("map");
+        };
+    }, [register, unregister]);
 
     const mapItems = data?.data?.map((map: OverwatchMap, index: number) => (
         <Card key={`${map.name}-${index}`}>

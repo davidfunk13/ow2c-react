@@ -1,5 +1,5 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import ControlCardImage from "../../../../../assets/icons/control-card.webp";
 import EscortCardImage from "../../../../../assets/icons/escort-card.webp";
@@ -8,6 +8,7 @@ import PushCardImage from "../../../../../assets/icons/push-card.webp";
 import FlashpointCardImage from "../../../../../assets/icons/flashpoint-card.webp";
 import ResponsiveGrid from "../../../../../components/ResponsiveGrid/ResponsiveGrid";
 import GameType from "../../../../../types/GameTypes.type";
+import { get } from "http";
 
 type GameTypesMap = { name: GameType, image: string }[];
 
@@ -23,11 +24,11 @@ type CardItemProps = {
     image: string;
     title: string;
     error: boolean;
-    selected: boolean;
+    selected?: boolean;
     onClick: () => void;
 };
 
-const CardItem: FC<CardItemProps> = ({ image, title, onClick, error, selected }) => {
+const CardItem: FC<CardItemProps> = ({ image, title, onClick, error, selected = false }) => {
     return (
         <Card
             variant={selected ? "elevation" : "outlined"}
@@ -55,63 +56,46 @@ const CardItem: FC<CardItemProps> = ({ image, title, onClick, error, selected })
 type SelectGameTypeProps = Record<string, unknown>;
 
 const SelectGameType: FC<SelectGameTypeProps> = () => {
-    const [selectedGameType, setSelectedGameType] = useState<GameType | null>(null);
-    const { register, setValue, clearErrors, formState: { errors }, getValues } = useFormContext();
+    const { register, setValue, watch, formState: { errors }, getValues } = useFormContext();
+    const selectedOption = watch("selectedOption");
 
-    const handleSelectGameType = (gameType: GameType) => {
-        // if already selected, unselect
-        if (selectedGameType === gameType) {
-            setSelectedGameType(null);
-            setValue("gameType", null);
+    // Handle button click
+    const handleSelect = (title: string) => {
+        // If already selected, unselect
+        if (selectedOption === title) {
+            setValue("selectedOption", null);
             return;
         }
-
-        setSelectedGameType(gameType);
-        setValue("gameType", gameType, { shouldValidate: true });
-        clearErrors("gameType");
+        setValue("selectedOption", title, { shouldValidate: true });
     };
 
-    useEffect(() => {
-        register("gameType", { required: "Must Select a Game Type", shouldUnregister: false });
-        console.log(getValues("gameType"));
-    }, [register]);
     const cardItems = gameTypes.map((item) => (
         <CardItem
             key={item.name}
-            selected={item.name === selectedGameType}
+            selected={item.name === selectedOption}
             error={!!errors.gameType}
             image={item.image}
             title={item.name}
-            onClick={() => handleSelectGameType(item.name)}
+            onClick={() => handleSelect(item.name)}
         />
     ));
 
+    // Effect for re-registering the field and setting its value when component mounts
     useEffect(() => {
-        const gameType = getValues("gameType");
+        register("selectedOption", { required: "You must select an option" });
 
-        if (gameType) {
-            setSelectedGameType(gameType);
+        // Set the value from the form state (useful when navigating back to this step)
+        const currentValue = getValues("selectedOption");
+        if (currentValue) {
+            setValue("selectedOption", currentValue);
         }
-
-    }, [getValues]);
-
+    }, [register, setValue, getValues]);
+console.log(getValues(), errors);
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Typography variant={"h4"}>Select Game Type</Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography variant={"body1"}>Select the game type you are playing.</Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <ResponsiveGrid items={cardItems} />
-            </Grid>
-            <Grid item xs={12}>
-                <Typography color={"error"} variant={"body1"}>
-                    {errors.gameType?.message?.toString()}
-                </Typography>
-            </Grid>
-        </Grid>
+        <div>
+            {cardItems ? <ResponsiveGrid items={cardItems} /> : null}
+            {errors.selectedOption && <span style={{ color: "red" }}>{errors.selectedOption.message?.toString()}</span>}
+        </div>
     );
 };
 
