@@ -3,7 +3,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useMultiStepForm } from "./useMultiStepForm";
 import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 
 type MultiStepFormProps = {
     steps: React.ComponentType[];
@@ -42,6 +42,7 @@ const MultiStepForm: FC<MultiStepFormProps> = ({ steps }) => {
     };
 
     const onNext = async () => {
+
         const isValid = await methods.trigger();
         if (isValid) {
             if (currentStep === steps.length - 1) {
@@ -51,22 +52,28 @@ const MultiStepForm: FC<MultiStepFormProps> = ({ steps }) => {
             }
         }
     };
+
     return (
         <FormProvider {...methods}>
             <ErrorBoundary FallbackComponent={FallBack}>
                 <form onSubmit={methods.handleSubmit(onNext)}>
-                    <CurrentStepComponent />
-                    <div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <CurrentStepComponent />
+                        </Grid>
                         {currentStep > 0 && (
-                            <button type={"button"} onClick={onBack}>
-                                Back
-                            </button>
+                            <Grid item>
+                                <Button variant={"outlined"} type={"button"} onClick={onBack}>
+                                    Back
+                                </Button>
+                            </Grid>
                         )}
-                        <button type={"submit"}>
-                            {currentStep === steps.length - 1 ? "Submit" : "Next"}
-                        </button>
-                    </div>
-
+                        <Grid item>
+                            <Button variant={"outlined"} type={"submit"}>
+                                {currentStep === steps.length - 1 ? "Submit" : "Next"}
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
             </ErrorBoundary >
         </FormProvider>

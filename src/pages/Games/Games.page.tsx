@@ -7,8 +7,8 @@ import gameTableColumns from "./components/gamesTableColumns";
 import AppModal from "../../features/AppModal/AppModal";
 import { useAppModal } from "../../features/AppModal/useAppModal";
 import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
-import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap";
-import SelectHero from "../../features/MultiStepForm/forms/AddGameForm/SelectHero";
+import SelectGameType from "../../features/MultiStepForm/forms/AddGameForm/SelectGameType/SelectGameType";
+import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/SelectMap";
 
 interface GamesPageProps { }
 
@@ -23,6 +23,7 @@ const GamesPage: FC<GamesPageProps> = () => {
     };
     const { data: games,
         isLoading: getGamesLoading,
+        // handle errors. dispatch snackbar with these
         // isError,
         // error
     } = useGetGamesQuery();
@@ -36,6 +37,11 @@ const GamesPage: FC<GamesPageProps> = () => {
             console.error("Store Game failed", error);
         }
     };
+
+    const addGameSteps = [
+        SelectGameType,
+        SelectMap,
+    ];
 
     return (
         <Grid container>
@@ -65,7 +71,7 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <AppModal>
-                <MultiStepForm steps={[SelectMap, SelectHero]} />
+                <MultiStepForm steps={addGameSteps} />
             </AppModal>
         </Grid >
     );
