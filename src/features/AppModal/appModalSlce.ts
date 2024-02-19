@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface UIState {
+interface AppModalState {
     open: boolean
 }
 
-const initialState: UIState = {
+const initialState: AppModalState = {
     open: false,
 };
 
@@ -21,5 +21,4 @@ const appModalSlice = createSlice({
 });
 
 export const { toggleModal } = appModalSlice.actions;
-
 export default appModalSlice.reducer;

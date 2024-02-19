@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-type UseRandomSplashImageArray = { images: string[] };
+type UseRandomSplashImageArray = string[]
 
-const useRandomSplashImage = ({ images }: UseRandomSplashImageArray): string => {
+const useRandomSplashImage = (images: UseRandomSplashImageArray): string => {
     const [selectedImage, setSelectedImage] = useState<string>("");
 
     useEffect(() => {

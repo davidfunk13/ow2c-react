@@ -3,12 +3,16 @@ import authenticationSlice, { AUTHENTICATION_STATE } from "../state/authenticati
 import baseApi from "../services/baseApi";
 import appDrawerSlice, { APP_DRAWER_STATE } from "../features/AppDrawer/appDrawerSlice";
 import appModalSlce, { APP_MODAL_STATE } from "../features/AppModal/appModalSlce";
+import themeToggleSlice, { THEME_TOGGLE_STATE } from "../features/ThemeToggle/themeToggleSlice";
+import filterButtonsSlice, { FILTER_BUTTONS_STATE } from "../features/FilterButtons/filterButtonsSlice";
 
 export const store = configureStore({
     reducer: {
         [APP_DRAWER_STATE]: appDrawerSlice,
         [APP_MODAL_STATE]: appModalSlce,
         [AUTHENTICATION_STATE]: authenticationSlice,
+        [THEME_TOGGLE_STATE]: themeToggleSlice,
+        [FILTER_BUTTONS_STATE]: filterButtonsSlice,
         [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {

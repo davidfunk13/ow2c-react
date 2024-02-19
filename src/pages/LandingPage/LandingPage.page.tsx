@@ -8,10 +8,10 @@ import Typography from "@mui/material/Typography";
 import { FC } from "react";
 import { useTheme } from "@mui/material";
 import useRandomSplashImage from "../../hooks/useRandomSplashImage";
-import { splashImages } from "../../utils/splashImages";
 import loginString from "../../utils/loginString";
 import { gridStyle, logoStyle, paperGridStyle, rootContainerStyle } from "./LandingPage.styles";
 import { useGetCsrfTokenMutation } from "../../services/baseApi";
+import { splashImages } from "../../utils/splashImages";
 
 interface LandingPageProps {
 

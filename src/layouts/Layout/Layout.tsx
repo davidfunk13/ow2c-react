@@ -16,6 +16,7 @@ import { useLogoutMutation } from "../../services/authApi";
 import { EmptyPromise } from "../../types/EmptyPromise.type";
 import { useAppDrawer } from "../../features/AppDrawer/useAppDrawer";
 import useLayoutStyles from "./useLayoutStyles";
+import ThemeToggle from "../../features/ThemeToggle/ThemeToggle";
 
 interface LayoutProps { }
 
@@ -72,6 +73,9 @@ const Layout: FC<LayoutProps> = () => {
                         </Grid>
                         <Grid item>
                             <UserBadge />
+                        </Grid>
+                        <Grid item>
+                            <ThemeToggle />
                         </Grid>
                         <Grid item>
                             <Button onClick={handleLogout} variant={"contained"} color={"secondary"}>

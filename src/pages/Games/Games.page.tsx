@@ -7,10 +7,13 @@ import gameTableColumns from "./components/gamesTableColumns";
 import AppModal from "../../features/AppModal/AppModal";
 import { useAppModal } from "../../features/AppModal/useAppModal";
 import { StepType } from "../../features/MultiStepForm/types";
-import RHFMultiStepForm from "../../features/MultiStepForm/RHFMultiStepForm";
-import { RHFStep1, Step1ValidationSchema } from "../../features/MultiStepForm/RHFStep1";
-import { RHFStep2, Step2ValidationSchema } from "../../features/MultiStepForm/RHFStep2";
-import { RHFStep3, Step3ValidationSchema } from "../../features/MultiStepForm/RHFStep3";
+import RHFMultiStepForm from "../../features/MultiStepForm/POC/RHFMultiStepForm";
+import { RHFStep1, Step1ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep1";
+import { RHFStep2, Step2ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep2";
+import { RHFStep3, Step3ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep3";
+import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMap";
+import { selectMapInitialValues, selectMapValidationSchema } from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMapValidationSchema";
+import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
 
 interface GamesPageProps { }
 
@@ -39,26 +42,34 @@ const GamesPage: FC<GamesPageProps> = () => {
             console.error("Store Game failed", error);
         }
     };
-    const rhfSteps: StepType[] = [
+    // const rhfSteps: StepType[] = [
+    //     {
+    //         label: "Name",
+    //         component: RHFStep1,
+    //         initialValues: { firstName: "", lastName: "" },
+    //         validationSchema: Step1ValidationSchema,
+    //     },
+    //     {
+    //         label: "Contact Information",
+    //         component: RHFStep2,
+    //         initialValues: { email: "" },
+    //         validationSchema: Step2ValidationSchema,
+    //     },
+    //     {
+    //         label: "Card Selection",
+    //         component: RHFStep3,
+    //         initialValues: { selectedCard: "" },
+    //         validationSchema: Step3ValidationSchema,
+    //     }
+    //     // Add more steps as needed
+    // ];
+    const steps: StepType[] = [
         {
-            label: "Name",
-            component: RHFStep1,
-            initialValues: { firstName: "", lastName: "" },
-            validationSchema: Step1ValidationSchema,
-        },
-        {
-            label: "Contact Information",
-            component: RHFStep2,
-            initialValues: { email: "" },
-            validationSchema: Step2ValidationSchema,
-        },
-        {
-            label: "Card Selection",
-            component: RHFStep3,
-            initialValues: { selectedCard: "" },
-            validationSchema: Step3ValidationSchema,
+            label: "Select Map",
+            component: SelectMap,
+            initialValues: selectMapInitialValues,
+            validationSchema: selectMapValidationSchema,
         }
-        // Add more steps as needed
     ];
     return (
         <Grid container>
@@ -88,7 +99,8 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <AppModal>
-                <RHFMultiStepForm steps={rhfSteps} />
+                {/* <RHFMultiStepForm steps={rhfSteps} /> */}
+                <MultiStepForm steps={steps} />
             </AppModal>
         </Grid >
     );

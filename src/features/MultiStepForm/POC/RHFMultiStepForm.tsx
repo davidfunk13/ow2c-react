@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormValues, MultiStepFormProps } from "./types";
+import { FormValues, MultiStepFormProps } from "../types";
 import Button from "@mui/material/Button";
 import { Grid, Step, StepLabel, Stepper } from "@mui/material";
 
