@@ -1,59 +1,46 @@
-import React, { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useMemo } from "react";
+import { FormProvider } from "react-hook-form";
 import Button from "@mui/material/Button";
-import { Grid, Step, StepLabel, Stepper } from "@mui/material";
-import { FormValues, StepType } from "./types";
+import { Alert, Grid, Step, StepLabel, Stepper } from "@mui/material";
+import useMultiStepForm from "./useMultiStepForm";
+import { MultiStepFormProps } from "./types";
 
-interface MultiStepFormProps {
-    steps: StepType[];
-}
+const MultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
+    const {
+        currentStep,
+        hasError,
+        methods,
+        handleSubmit,
+        onSubmit,
+        handleBack,
+        errorMessageForStep
+    } = useMultiStepForm({ steps, submitAction });
 
-const MultiStepForm: React.FC<MultiStepFormProps> = ({ steps }) => {
-    const [currentStep, setCurrentStep] = useState(0);
-    const currentValidationSchema = steps[currentStep].validationSchema;
-
-    const methods = useForm({
-        resolver: yupResolver(currentValidationSchema),
-        defaultValues: steps.reduce(
-            (acc, step) => ({ ...acc, ...step.initialValues }),
-            {}
-        ),
-    });
-
-    // add a way to get errors for a specific step so we can indicate it on the horizontal stepper
-    const { handleSubmit, getValues, formState: { errors } } = methods;
-console.log({errors, getValues: getValues()});
-    const onSubmit = (data: FormValues) => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1);
-        } else {
-            console.log("hit final");
-            console.log(data);
-        }
-    };
-
-    const handleBack = () => {
-        if (currentStep > 0) {
-            setCurrentStep(currentStep - 1);
-        }
-    };
-
-    const StepComponent = steps[currentStep].component;
+    const StepComponent = useMemo(() => steps[currentStep].component, [currentStep, steps]);
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Stepper activeStep={currentStep} alternativeLabel>
-                    {steps.map((step) => {
-                        const { label } = step;
+                    {steps.map(({ label }, index) => {
+                        const isStepError = hasError && currentStep === index;
+
                         return (
                             <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
+                                <StepLabel error={isStepError} >
+                                    {label}
+                                </StepLabel>
                             </Step>
                         );
                     })}
                 </Stepper>
+            </Grid>
+            <Grid item xs={12}>
+                {(hasError && Boolean(errorMessageForStep)) && (
+                    <Alert severity={"error"}>
+                        {errorMessageForStep}
+                    </Alert>
+                )}
             </Grid>
             <Grid item xs={12}>
                 <FormProvider {...methods}>
@@ -71,8 +58,6 @@ console.log({errors, getValues: getValues()});
                         <Grid item>
                             <Button
                                 fullWidth
-                                // EXTRACT THIS TO GLOBAL COMPONENT SO WHEN I USE THE BUTTON ITS THERE ALREADY
-                                sx={{ minWidth: 100 }}
                                 variant={"outlined"}
                                 color={"error"}
                                 onClick={() => console.log("close modal")}
@@ -82,8 +67,6 @@ console.log({errors, getValues: getValues()});
                         </Grid>
                         <Grid item>
                             <Button
-                                // EXTRACT THIS TO GLOBAL COMPONENT SO WHEN I USE THE BUTTON ITS THERE ALREADY
-                                sx={{ minWidth: 100 }}
                                 fullWidth
                                 variant={"contained"}
                                 color={"primary"}
@@ -95,8 +78,6 @@ console.log({errors, getValues: getValues()});
                         </Grid>
                         <Grid item>
                             <Button
-                                // EXTRACT THIS TO GLOBAL COMPONENT SO WHEN I USE THE BUTTON ITS THERE ALREADY
-                                sx={{ minWidth: 100 }}
                                 fullWidth
                                 variant={"contained"}
                                 color={"primary"}

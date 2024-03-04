@@ -7,63 +7,44 @@ import gameTableColumns from "./components/gamesTableColumns";
 import AppModal from "../../features/AppModal/AppModal";
 import { useAppModal } from "../../features/AppModal/useAppModal";
 import { StepType } from "../../features/MultiStepForm/types";
-import RHFMultiStepForm from "../../features/MultiStepForm/POC/RHFMultiStepForm";
-import { RHFStep1, Step1ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep1";
-import { RHFStep2, Step2ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep2";
-import { RHFStep3, Step3ValidationSchema } from "../../features/MultiStepForm/POC/RHFStep3";
-import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMap";
 import { selectMapInitialValues, selectMapValidationSchema } from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMapValidationSchema";
 import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
+import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/SelectMap";
 
 interface GamesPageProps { }
 
 const GamesPage: FC<GamesPageProps> = () => {
-    const storeGameData: Partial<Game> = {
-        result: 1,
-        map_played: "King’s Row",
-        hero_played: "Illari",
-        additional_hero_played_1: "Ana",
-        additional_hero_played_2: "",
-        game_mode: 1,
-    };
+    // Minimum information needed info to store a game.
+
+    // const storeGameData: Partial<Game> = {
+    //     result: 1,
+    //     map_played: "King’s Row",
+    //     hero_played: "Illari",
+    //     additional_hero_played_1: "Ana",
+    //     additional_hero_played_2: "",
+    //     game_mode: 1,
+    // };
+
     const { data: games,
         isLoading: getGamesLoading,
-        // handle errors. dispatch snackbar with these
+        // handle errors.
+        // dispatch snackbar with these in handleStoreGame or something.
+        // -----------------------------
         // isError,
         // error
     } = useGetGamesQuery();
     const { toggleModal } = useAppModal();
     const [storeGame, { isLoading: storeGameLoading }] = useStoreGameMutation();
 
-    const handleStoreGame = async () => {
+    const handleStoreGame = async (data: Game) => {
         try {
-            await storeGame(storeGameData);
+            await storeGame(data);
         } catch (error) {
             console.error("Store Game failed", error);
         }
     };
-    // const rhfSteps: StepType[] = [
-    //     {
-    //         label: "Name",
-    //         component: RHFStep1,
-    //         initialValues: { firstName: "", lastName: "" },
-    //         validationSchema: Step1ValidationSchema,
-    //     },
-    //     {
-    //         label: "Contact Information",
-    //         component: RHFStep2,
-    //         initialValues: { email: "" },
-    //         validationSchema: Step2ValidationSchema,
-    //     },
-    //     {
-    //         label: "Card Selection",
-    //         component: RHFStep3,
-    //         initialValues: { selectedCard: "" },
-    //         validationSchema: Step3ValidationSchema,
-    //     }
-    //     // Add more steps as needed
-    // ];
-    const steps: StepType[] = [
+
+    const addGameFormSteps: StepType[] = [
         {
             label: "Select Map",
             component: SelectMap,
@@ -71,17 +52,13 @@ const GamesPage: FC<GamesPageProps> = () => {
             validationSchema: selectMapValidationSchema,
         }
     ];
+
     return (
         <Grid container>
             <Grid item xs={12}>
                 <Typography variant={"h2"}>
                     Games
                 </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Button onClick={handleStoreGame}>
-                    Store Game
-                </Button>
             </Grid>
             <Grid item xs={12}>
                 <Button onClick={toggleModal}>
@@ -99,8 +76,7 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <AppModal>
-                {/* <RHFMultiStepForm steps={rhfSteps} /> */}
-                <MultiStepForm steps={steps} />
+                <MultiStepForm submitAction={handleStoreGame} steps={addGameFormSteps} />
             </AppModal>
         </Grid >
     );

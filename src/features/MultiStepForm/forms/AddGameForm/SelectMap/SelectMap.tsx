@@ -1,46 +1,76 @@
-import { FC } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Grid, CircularProgress } from "@mui/material";
+import { Card, CardActionArea, CardMedia, CardContent, Typography, Grid, CircularProgress, useTheme } from "@mui/material";
 import { useGetMapsQuery } from "../../../../../services/mapApi";
 import FilterButtons, { FilterOption } from "../../../../FilterButtons/FilterButtons";
 import { useAppSelector } from "../../../../../app/hooks";
 import { selectFilter } from "../../../../FilterButtons/filterButtonsSlice";
 import GameType, { GameTypes } from "../../../../../types/GameTypes.type";
+import OverwatchMap from "../../../../../types/OverwatchMap.type";
 
-// refactor a lot of this to actually fetch maps from the api by filter instead of filter the existing maps.
+type MapCardProps = {
+  map: OverwatchMap;
+  isSelected: boolean;
+  onCardClick: (id: number) => void;
+};
 
-const SelectMap: FC = () => {
+type SelectMapProps = Record<string, unknown>;
+
+const MapCard: FC<MapCardProps> = ({ map: { id, name }, isSelected, onCardClick }) => {
+  const theme = useTheme();
+  const { constants: { mediaCardHeight } } = theme;
+
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+    >
+      <Card onClick={() => onCardClick(id)} raised={isSelected}>
+        <CardActionArea>
+          <CardMedia
+            height={mediaCardHeight}
+            component={"img"}
+            alt={name}
+          />
+          <CardContent>
+            <Typography whiteSpace={"nowrap"}
+              overflow={"hidden"}
+              textOverflow={"ellipsis"}
+              gutterBottom
+              variant={"subtitle1"}
+            >
+              {name}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Grid>
+  );
+};
+
+const SelectMap: FC<SelectMapProps> = () => {
   const { setValue, watch, clearErrors } = useFormContext();
   const selectedCard = watch("map");
   const selectedFilter = useAppSelector(selectFilter);
-
-  const { data: maps,
-    isLoading: mapsLoading,
-    // handle errors. dispatch snackbar with these
-    // you need to actually handle a failure to get the maps.
-    // isError,
-    // error
-  } = useGetMapsQuery(selectedFilter);
-
+  const { data: maps, isLoading: mapsLoading } = useGetMapsQuery(selectedFilter);
   const gameTypeArray: GameType[] = Object.values(GameTypes);
-  const filteredMaps = maps?.data.filter((map) => map.type === selectedFilter);
+  const filteredMaps = useMemo(() => maps?.data.filter(({ type }) => type === selectedFilter), [maps?.data, selectedFilter]);
 
-  const handleCardClick = (index: number) => {
-    if (selectedCard === index) {
+  const handleCardClick = useCallback((id: number) => {
+    if (selectedCard === id) {
       setValue("map", null);
       clearErrors("map");
-    } else {
-      setValue("map", index);
-      clearErrors("map");
+      return;
     }
-  };
 
-  const filterOptions: FilterOption[] = gameTypeArray.map((type) => {
-    return {
-      label: type,
-      value: type,
-    };
-  }) || [];
+    setValue("map", id);
+    clearErrors("map");
+    return;
+  }, [selectedCard, setValue, clearErrors]);
+
+  const filterOptions: FilterOption[] = useMemo(() => gameTypeArray.map((type) => ({ label: type, value: type })), [gameTypeArray]);
 
   return (
     <Grid container spacing={2}>
@@ -49,47 +79,25 @@ const SelectMap: FC = () => {
           Select Game Type
         </Typography>
       </Grid>
-      {mapsLoading ?
+      {mapsLoading && (
         <Grid container>
           <Grid item xs={12}>
             <CircularProgress size={100} />
           </Grid>
-        </Grid> : null}
+        </Grid>
+      )}
       <Grid item xs={12}>
-        <FilterButtons
-          onFilterChange={() => setValue("map", null)}
-          options={filterOptions}
-        />
+        <FilterButtons onFilterChange={() => setValue("map", null)} options={filterOptions} />
       </Grid>
-      {!mapsLoading && selectedFilter && filteredMaps?.map((map, index) => {
-        return (
-          <Grid
+      {!mapsLoading && selectedFilter &&
+        filteredMaps?.map((map) => (
+          <MapCard
             key={map.id}
-            item
-            xs={12}
-            sm={6}
-            md={4}
-          >
-            <Card
-              onClick={() => handleCardClick(index)}
-              raised={selectedCard === index}
-            >
-              <CardActionArea>
-                <CardMedia
-                  component={"img"}
-                  height={"3"}
-                  alt={map.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant={"h5"} component={"div"}>
-                    {map.name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        );
-      })}
+            map={map}
+            isSelected={selectedCard === map.id}
+            onCardClick={handleCardClick}
+          />
+        ))}
     </Grid>
   );
 };
