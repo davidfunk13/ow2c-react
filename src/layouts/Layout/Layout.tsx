@@ -88,7 +88,7 @@ const Layout: FC<LayoutProps> = () => {
             <AppDrawer />
             <Box component={"main"} sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
-                {/* This is where /games content will render */}
+                {/* This is where any route other than dashboard will render */}
                 <Outlet />
             </Box>
         </Box >

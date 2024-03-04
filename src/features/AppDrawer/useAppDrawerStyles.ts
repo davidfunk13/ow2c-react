@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
 import drawerWidth from "../../utils/drawerWidth";
 
-const styles = {
-    drawerStyles: css`
+const useAppDrawerStyles = () => {
+  return {
+    drawer: css`
     width: ${drawerWidth}px;
     flex-shrink: 0;
     
@@ -10,7 +11,12 @@ const styles = {
       width: ${drawerWidth}px;
       box-sizing: border-box;
     }
-    `
+    `,
+    box: css`
+    overflow: auto;
+    `,
+  };
+
 };
 
-export default styles;
+export default useAppDrawerStyles;

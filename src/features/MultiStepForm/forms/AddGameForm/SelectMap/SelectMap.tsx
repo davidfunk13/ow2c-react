@@ -21,32 +21,26 @@ const MapCard: FC<MapCardProps> = ({ map: { id, name }, isSelected, onCardClick 
   const { constants: { mediaCardHeight } } = theme;
 
   return (
-    <Grid
-      item
-      xs={12}
-      sm={6}
-      md={4}
-    >
-      <Card onClick={() => onCardClick(id)} raised={isSelected}>
-        <CardActionArea>
-          <CardMedia
-            height={mediaCardHeight}
-            component={"img"}
-            alt={name}
-          />
-          <CardContent>
-            <Typography whiteSpace={"nowrap"}
-              overflow={"hidden"}
-              textOverflow={"ellipsis"}
-              gutterBottom
-              variant={"subtitle1"}
-            >
-              {name}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
+    <Card onClick={() => onCardClick(id)} raised={isSelected}>
+      <CardActionArea>
+        <CardMedia
+          height={mediaCardHeight}
+          component={"img"}
+          alt={name}
+        />
+        <CardContent>
+          <Typography
+            whiteSpace={"nowrap"}
+            overflow={"hidden"}
+            textOverflow={"ellipsis"}
+            gutterBottom
+            variant={"subtitle1"}
+          >
+            {name}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 
@@ -89,15 +83,28 @@ const SelectMap: FC<SelectMapProps> = () => {
       <Grid item xs={12}>
         <FilterButtons onFilterChange={() => setValue("map", null)} options={filterOptions} />
       </Grid>
-      {!mapsLoading && selectedFilter &&
-        filteredMaps?.map((map) => (
-          <MapCard
-            key={map.id}
-            map={map}
-            isSelected={selectedCard === map.id}
-            onCardClick={handleCardClick}
-          />
-        ))}
+      <Typography component={Grid} container item
+        xs={12}
+        variant={"h6"} gutterBottom
+      >
+        Select Map
+      </Typography>
+      <Grid container item xs={12}
+        sx={{ maxHeight: 300, overflowY: "auto" }}
+      >
+        {!mapsLoading && selectedFilter &&
+          filteredMaps?.map((map) => (
+            <Grid item xs={12} sm={6}
+              key={map.id}
+            >
+              <MapCard
+                map={map}
+                isSelected={selectedCard === map.id}
+                onCardClick={handleCardClick}
+              />
+            </Grid>
+          ))}
+      </Grid>
     </Grid>
   );
 };

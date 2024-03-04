@@ -1,22 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import { FC } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { useAppModal } from "./useAppModal";
-
-//migrate to style hook
-const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "70vh",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import useAppModalStyles from "./useAppModalStyles";
 
 type AppModalProps = {
   children: React.ReactNode;
@@ -30,6 +19,7 @@ const slotProps = {
 
 const AppModal: FC<AppModalProps> = ({ children }) => {
   const { isOpen, toggleModal } = useAppModal();
+  const { container } = useAppModalStyles();
 
   return (
     <Modal
@@ -42,7 +32,7 @@ const AppModal: FC<AppModalProps> = ({ children }) => {
       slotProps={slotProps}
     >
       <Fade in={isOpen}>
-        <Box sx={style}>
+        <Box css={container}>
           {children}
         </Box>
       </Fade>

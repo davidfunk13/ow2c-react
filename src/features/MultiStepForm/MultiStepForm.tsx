@@ -15,7 +15,6 @@ const MultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
         handleBack,
         errorMessageForStep
     } = useMultiStepForm({ steps, submitAction });
-
     const StepComponent = useMemo(() => steps[currentStep].component, [currentStep, steps]);
 
     return (

@@ -2,14 +2,11 @@
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Dashboard, Inbox as InboxIcon } from "@mui/icons-material";
-import styles from "./AppDrawer.styles";
 import { Link } from "react-router-dom";
 import { useAppDrawer } from "./useAppDrawer";
+import useAppDrawerStyles from "./useAppDrawerStyles";
 
 interface AppDrawerProps { }
-
-//convert these styles to new hook pattern.
-const { drawerStyles } = styles;
 
 const generateDrawerItems = (): JSX.Element => {
     return (
@@ -41,10 +38,12 @@ const generateDrawerItems = (): JSX.Element => {
 };
 
 const DesktopDrawer: FC<AppDrawerProps> = () => {
+    const { drawer } = useAppDrawerStyles();
+
     return (
         <Drawer
             variant={"permanent"}
-            css={drawerStyles}
+            css={drawer}
         >
             {generateDrawerItems()}
         </Drawer>
@@ -53,6 +52,7 @@ const DesktopDrawer: FC<AppDrawerProps> = () => {
 
 const MobileDrawer: FC<AppDrawerProps> = () => {
     const { isOpen, toggleDrawer } = useAppDrawer();
+    const { drawer } = useAppDrawerStyles();
 
     return (
         <SwipeableDrawer
@@ -62,7 +62,7 @@ const MobileDrawer: FC<AppDrawerProps> = () => {
             onOpen={toggleDrawer}
 
             variant={"temporary"}
-            css={drawerStyles}
+            css={drawer}
         >
             {generateDrawerItems()}
         </SwipeableDrawer>
