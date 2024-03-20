@@ -1,17 +1,12 @@
-import { SerializedStyles } from "@emotion/react";
-import { Theme, css, useTheme } from "@mui/material";
 
-const styles = {
-    menuIconStyles: (theme: Theme): SerializedStyles => css`color: ${theme.palette.common.white}`,
-    appBarStyles: (theme: Theme): SerializedStyles => css`z-index: ${theme.zIndex.drawer + 1}`
-};
+import { css, useTheme } from "@mui/material";
 
 const useLayoutStyles = () => {
     const theme = useTheme();
 
     return {
-        menuIconStyles: styles.menuIconStyles(theme),
-        appBarStyles: styles.appBarStyles(theme),
+        menuIconStyles: css`color: ${theme.palette.common.white}`,
+        appBarStyles: css`z-index: ${theme.zIndex.drawer + 1}`
     };
 };
 

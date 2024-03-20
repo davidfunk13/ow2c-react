@@ -1,16 +1,11 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { FC } from "react";
-import { Inbox as InboxIcon } from "@mui/icons-material";
-import { Mail as MailIcon } from "@mui/icons-material";
-import styles from "./AppDrawer.styles";
+import { Dashboard, Inbox as InboxIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useAppDrawer } from "./useAppDrawer";
+import useAppDrawerStyles from "./useAppDrawerStyles";
 
 interface AppDrawerProps { }
-
-//convert these styles to new hook pattern.
-const { drawerStyles } = styles;
 
 const generateDrawerItems = (): JSX.Element => {
     return (
@@ -18,6 +13,14 @@ const generateDrawerItems = (): JSX.Element => {
             <Toolbar />
             <Box sx={{ overflow: "auto" }}>
                 <List>
+                    <ListItem key={"dashboard"} disablePadding >
+                        <ListItemButton component={Link} to={"/"}>
+                            <ListItemIcon>
+                                <Dashboard />
+                            </ListItemIcon>
+                            <ListItemText primary={"Dashboard"} />
+                        </ListItemButton>
+                    </ListItem>
                     <ListItem key={"games"} disablePadding >
                         <ListItemButton component={Link} to={"/games"}>
                             <ListItemIcon>
@@ -28,30 +31,18 @@ const generateDrawerItems = (): JSX.Element => {
                     </ListItem>
                 </List>
                 <Divider />
-                <List>
-                    {["All mail", "Trash", "Spam"].map((text, index) => (
-                        <ListItem key={text}
-                            disablePadding
-                        >
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
             </Box>
         </>
     );
 };
 
 const DesktopDrawer: FC<AppDrawerProps> = () => {
+    const { drawer } = useAppDrawerStyles();
+
     return (
         <Drawer
             variant={"permanent"}
-            css={drawerStyles}
+            css={drawer}
         >
             {generateDrawerItems()}
         </Drawer>
@@ -60,6 +51,7 @@ const DesktopDrawer: FC<AppDrawerProps> = () => {
 
 const MobileDrawer: FC<AppDrawerProps> = () => {
     const { isOpen, toggleDrawer } = useAppDrawer();
+    const { drawer } = useAppDrawerStyles();
 
     return (
         <SwipeableDrawer
@@ -68,9 +60,8 @@ const MobileDrawer: FC<AppDrawerProps> = () => {
             onClose={toggleDrawer}
             onOpen={toggleDrawer}
 
-
             variant={"temporary"}
-            css={drawerStyles}
+            css={drawer}
         >
             {generateDrawerItems()}
         </SwipeableDrawer>

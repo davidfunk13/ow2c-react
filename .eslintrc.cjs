@@ -18,6 +18,7 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "react/prop-types": "off",
     "react/jsx-curly-brace-presence": [2, { "props": "always" }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "react/react-in-jsx-scope": "off",

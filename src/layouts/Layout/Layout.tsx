@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,6 +15,7 @@ import { useLogoutMutation } from "../../services/authApi";
 import { EmptyPromise } from "../../types/EmptyPromise.type";
 import { useAppDrawer } from "../../features/AppDrawer/useAppDrawer";
 import useLayoutStyles from "./useLayoutStyles";
+import ThemeToggle from "../../features/ThemeToggle/ThemeToggle";
 
 interface LayoutProps { }
 
@@ -74,6 +74,9 @@ const Layout: FC<LayoutProps> = () => {
                             <UserBadge />
                         </Grid>
                         <Grid item>
+                            <ThemeToggle />
+                        </Grid>
+                        <Grid item>
                             <Button onClick={handleLogout} variant={"contained"} color={"secondary"}>
                                 Logout
                             </Button>
@@ -84,7 +87,7 @@ const Layout: FC<LayoutProps> = () => {
             <AppDrawer />
             <Box component={"main"} sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
-                {/* This is where /games content will render */}
+                {/* This is where any route other than dashboard will render */}
                 <Outlet />
             </Box>
         </Box >

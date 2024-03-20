@@ -6,36 +6,52 @@ import Game from "../../types/Game.interface";
 import gameTableColumns from "./components/gamesTableColumns";
 import AppModal from "../../features/AppModal/AppModal";
 import { useAppModal } from "../../features/AppModal/useAppModal";
+import { StepType } from "../../features/MultiStepForm/types";
+import { selectMapInitialValues, selectMapValidationSchema } from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMapValidationSchema";
 import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
-import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap";
-import SelectHero from "../../features/MultiStepForm/forms/AddGameForm/SelectHero";
+import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/SelectMap";
 
 interface GamesPageProps { }
 
 const GamesPage: FC<GamesPageProps> = () => {
-    const storeGameData: Partial<Game> = {
-        result: 1,
-        map_played: "King’s Row",
-        hero_played: "Illari",
-        additional_hero_played_1: "Ana",
-        additional_hero_played_2: "",
-        game_mode: 1,
-    };
+    // Minimum information needed info to store a game.
+
+    // const storeGameData: Partial<Game> = {
+    //     result: 1,
+    //     map_played: "King’s Row",
+    //     hero_played: "Illari",
+    //     additional_hero_played_1: "Ana",
+    //     additional_hero_played_2: "",
+    //     game_mode: 1,
+    // };
+
     const { data: games,
         isLoading: getGamesLoading,
+        // handle errors.
+        // dispatch snackbar with these in handleStoreGame or something.
+        // -----------------------------
         // isError,
         // error
     } = useGetGamesQuery();
     const { toggleModal } = useAppModal();
     const [storeGame, { isLoading: storeGameLoading }] = useStoreGameMutation();
 
-    const handleStoreGame = async () => {
+    const handleStoreGame = async (data: Game) => {
         try {
-            await storeGame(storeGameData);
+            await storeGame(data);
         } catch (error) {
             console.error("Store Game failed", error);
         }
     };
+
+    const addGameFormSteps: StepType[] = [
+        {
+            label: "Select Map",
+            component: SelectMap,
+            initialValues: selectMapInitialValues,
+            validationSchema: selectMapValidationSchema,
+        }
+    ];
 
     return (
         <Grid container>
@@ -43,11 +59,6 @@ const GamesPage: FC<GamesPageProps> = () => {
                 <Typography variant={"h2"}>
                     Games
                 </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Button onClick={handleStoreGame}>
-                    Store Game
-                </Button>
             </Grid>
             <Grid item xs={12}>
                 <Button onClick={toggleModal}>
@@ -65,7 +76,7 @@ const GamesPage: FC<GamesPageProps> = () => {
                 </Typography>
             </Grid>
             <AppModal>
-                <MultiStepForm steps={[SelectMap, SelectHero]} />
+                <MultiStepForm submitAction={handleStoreGame} steps={addGameFormSteps} />
             </AppModal>
         </Grid >
     );

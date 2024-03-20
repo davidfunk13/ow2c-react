@@ -15,9 +15,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    // necessary if you dont want to put /** @jsxImportSource @emotion/react */ in every file's first line
+    // if this ends up being a problem for any reason, you can remove this line and add the pragma to every file
+    "jsxImportSource": "@emotion/react",
+
     /* Linting */
     "strict": true,
+    "jsx": "react-jsx", // use "react-jsx"
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true

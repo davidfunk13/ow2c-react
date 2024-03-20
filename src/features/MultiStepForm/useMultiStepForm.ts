@@ -1,22 +1,52 @@
+import { useCallback, useEffect, useState } from "react";
+import { MultiStepFormProps,  } from "./types";
+import { FieldErrors, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
-import { RootState } from "../../app/store";
-import { MULTI_STEP_FORM, goToNextStep, goToPreviousStep, resetForm, setCurrentStep } from "./multiStepFormSlice";
+const useMultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
+    const [currentStep, setCurrentStep] = useState(0);
+    const [hasError, setHasError] = useState(false);
 
-export const useMultiStepForm = () => {
-    const dispatch = useDispatch();
-    const currentStep = useAppSelector((state: RootState) => state[MULTI_STEP_FORM].currentStep);
-    const nextStep = () => dispatch(goToNextStep());
-    const previousStep = () => dispatch(goToPreviousStep());
-    const reset = () => dispatch(resetForm());
-    const setStep = (step: number) => dispatch(setCurrentStep(step));
+    const currentValidationSchema = steps[currentStep].validationSchema;
+    function getErrorMessageForStep(errors: FieldErrors<Record<string, unknown>>, currentStep: number): string | null {
+        const errorEntries = Object.values(errors);
+        const errorForCurrentStep = errorEntries[currentStep];
+        return errorForCurrentStep?.message || null;
+    }
+    const methods = useForm({
+        resolver: yupResolver(currentValidationSchema),
+        defaultValues: steps.reduce(
+            (acc, step) => ({ ...acc, ...step.initialValues }),
+            {}
+        ),
+    });
 
-    return {
-        currentStep,
-        nextStep,
-        previousStep,
-        reset,
-        setStep,
-    };
+    const { handleSubmit, formState: { errors } } = methods;
+
+    const errorObjectLength = Object.keys(errors).length;
+
+    useEffect(() => {
+        const errorMessage = getErrorMessageForStep(errors, currentStep);
+        setHasError(!!errorMessage);
+    }, [errors, errorObjectLength, currentStep]);
+
+    const onSubmit = useCallback((data: T) => {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+            return;
+        }
+        submitAction(data);
+    }, [currentStep, steps.length, submitAction]);
+
+    const errorMessageForStep = getErrorMessageForStep(errors, currentStep);
+
+    const handleBack = useCallback(() => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    }, [currentStep]);
+
+    return { currentStep, hasError, methods, errorMessageForStep, handleSubmit, onSubmit, handleBack };
 };
+
+export default useMultiStepForm;

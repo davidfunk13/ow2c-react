@@ -1,6 +1,6 @@
-import { AUTHENTICATION_STATE } from '../state/authenticationSlice';
-import { RootState } from '../app/store';
-import { useAppSelector } from '../app/hooks';
+import { AUTHENTICATION_STATE } from "../state/authenticationSlice";
+import { RootState } from "../app/store";
+import { useAppSelector } from "../app/hooks";
 
 export const useAuthentication = () => {
     const user = useAppSelector((state: RootState) => state[AUTHENTICATION_STATE].user);
