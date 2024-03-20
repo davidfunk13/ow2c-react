@@ -1,4 +1,4 @@
-import { Grid, IconButton, Switch, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import useThemeToggle from "./useThemeToggle";
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectFilter, setFilter } from "./filterButtonsSlice";
@@ -18,10 +18,12 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ options, onFilterChange =
     const selectedFilter = useAppSelector(selectFilter);
     const dispatch = useAppDispatch();
 
-    const handleFilterChange = (
-        event: React.MouseEvent<HTMLElement>,
+    type ToggleButtonGroupChangeHandler = (
+        event: MouseEvent<HTMLElement>,
         newFilter: GameType | null
-    ) => {
+    ) => void;
+
+    const handleFilterChange: ToggleButtonGroupChangeHandler = (_, newFilter) => {
         if (newFilter !== null) {
             dispatch(setFilter(newFilter));
             if (onFilterChange) {
