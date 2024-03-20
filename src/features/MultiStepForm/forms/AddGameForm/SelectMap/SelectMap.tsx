@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { FC, useCallback, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Grid, CircularProgress, useTheme } from "@mui/material";
@@ -7,6 +8,8 @@ import { useAppSelector } from "../../../../../app/hooks";
 import { selectFilter } from "../../../../FilterButtons/filterButtonsSlice";
 import GameType, { GameTypes } from "../../../../../types/GameTypes.type";
 import OverwatchMap from "../../../../../types/OverwatchMap.type";
+import snakeCase from "../../../../../utils/snakeCase";
+import useSelectMapStyles from "./useSelectMapStyles";
 
 type MapCardProps = {
   map: OverwatchMap;
@@ -16,17 +19,23 @@ type MapCardProps = {
 
 type SelectMapProps = Record<string, unknown>;
 
+// refactor this into a re-usable card.
 const MapCard: FC<MapCardProps> = ({ map: { id, name }, isSelected, onCardClick }) => {
   const theme = useTheme();
+  const classes = useSelectMapStyles();
   const { constants: { mediaCardHeight } } = theme;
 
   return (
-    <Card onClick={() => onCardClick(id)} raised={isSelected}>
+    <Card
+      onClick={() => onCardClick(id)} variant={"outlined"}
+      css={isSelected ? classes.cardIsSelected : undefined}
+    >
       <CardActionArea>
         <CardMedia
           height={mediaCardHeight}
           component={"img"}
           alt={name}
+          image={`src/assets/maps/${snakeCase(name)}.webp`}
         />
         <CardContent>
           <Typography
@@ -90,11 +99,15 @@ const SelectMap: FC<SelectMapProps> = () => {
         Select Map
       </Typography>
       <Grid container item xs={12}
-        sx={{ maxHeight: 300, overflowY: "auto" }}
+        spacing={2}
+        sx={{ maxHeight: 500, minHeight: 500, overflowY: "auto" }}
       >
         {!mapsLoading && selectedFilter &&
           filteredMaps?.map((map) => (
-            <Grid item xs={12} sm={6}
+            <Grid
+              item
+              xs={12}
+              sm={6}
               key={map.id}
             >
               <MapCard
