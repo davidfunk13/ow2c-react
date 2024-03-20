@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-const useSelectMapStyles = () => ({
+const useImageCardStyles = () => ({
     cardIsSelected: css`
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); 
     transform: scale(1.05);
@@ -8,4 +8,4 @@ const useSelectMapStyles = () => ({
   `,
 });
 
-export default useSelectMapStyles;
+export default useImageCardStyles;

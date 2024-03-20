@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { FC, Fragment, useState } from "react";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import UserBadgeContent from "./components/UserBadgeContent";

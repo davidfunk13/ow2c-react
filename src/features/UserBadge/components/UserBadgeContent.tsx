@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { FC, useRef } from "react";
 import useUserBadgeStyles from "../useUserBadgeStyles";
 import { Badge, Box, Card, CircularProgress, IconButton } from "@mui/material";

@@ -7,7 +7,7 @@ interface FilterButtonsState {
 }
 
 const initialState: FilterButtonsState = {
-    filter: undefined
+    filter: "Control"
 };
 
 export const FILTER_BUTTONS_STATE = "state/filterButtons";

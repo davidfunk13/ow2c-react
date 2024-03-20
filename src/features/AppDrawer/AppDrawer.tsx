@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Dashboard, Inbox as InboxIcon } from "@mui/icons-material";
