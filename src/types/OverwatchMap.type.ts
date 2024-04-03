@@ -8,6 +8,7 @@ type OverwatchMap = {
     area_1: Area;
     area_2: Area;
     area_3: Area;
+    thumbnail_url: string;
     country: string;
     created_at: Date | string; // Depending on whether you convert to Date object or not
     updated_at: Date | string; // Same as above

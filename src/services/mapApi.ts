@@ -1,6 +1,6 @@
-import { baseApi } from "./baseApi";
-import OverwatchMap from "../types/OverwatchMap.type";
 import GameType from "../types/GameTypes.type";
+import OverwatchMap from "../types/OverwatchMap.type";
+import { baseApi } from "./baseApi";
 
 export const mapApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -8,7 +8,6 @@ export const mapApi = baseApi.injectEndpoints({
             query: (gameType) => gameType ? `/api/maps/${gameType.toLowerCase()}` : "/api/maps",
             providesTags: ["Map"],
         })
-
     }),
 });
 

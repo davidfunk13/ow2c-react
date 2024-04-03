@@ -1,9 +1,9 @@
+import { Alert, Grid, Step, StepLabel, Stepper } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useMemo } from "react";
 import { FormProvider } from "react-hook-form";
-import Button from "@mui/material/Button";
-import { Alert, Grid, Step, StepLabel, Stepper } from "@mui/material";
-import useMultiStepForm from "./useMultiStepForm";
 import { MultiStepFormProps } from "./types";
+import useMultiStepForm from "./useMultiStepForm";
 
 const MultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
     const {
@@ -13,8 +13,9 @@ const MultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
         handleSubmit,
         onSubmit,
         handleBack,
-        errorMessageForStep
+        errors
     } = useMultiStepForm({ steps, submitAction });
+
     const StepComponent = useMemo(() => steps[currentStep].component, [currentStep, steps]);
 
     return (
@@ -34,13 +35,11 @@ const MultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) => {
                     })}
                 </Stepper>
             </Grid>
-            <Grid item xs={12}>
-                {(hasError && Boolean(errorMessageForStep)) && (
-                    <Alert severity={"error"}>
-                        {errorMessageForStep}
-                    </Alert>
-                )}
-            </Grid>
+            {hasError && Object.entries(errors).map(([key, value]) => (
+                <Grid item xs={12} key={key}>
+                    <Alert severity={"error"}>{String(value?.message)}</Alert>
+                </Grid>
+            ))}
             <Grid item xs={12}>
                 <FormProvider {...methods}>
                     <Grid

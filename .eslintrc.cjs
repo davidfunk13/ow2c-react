@@ -18,6 +18,15 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": 3,
+        "when": "always"
+      }
+    ],
+    "react/jsx-first-prop-new-line": [2, "multiline"],
+    "react/jsx-closing-tag-location": [2, "tag-aligned"],
     "react/prop-types": "off",
     "react/jsx-curly-brace-presence": [2, { "props": "always" }],
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -33,7 +42,6 @@ module.exports = {
     "eol-last": ["error", "always"],
     "no-console": "warn",
     "no-trailing-spaces": "error",
-    "react/jsx-max-props-per-line": [2, { "maximum": 3, "when": "always" }],
     'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
   },
 }

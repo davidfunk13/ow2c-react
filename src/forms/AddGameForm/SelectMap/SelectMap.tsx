@@ -1,19 +1,21 @@
+import { CircularProgress, Grid, Typography } from "@mui/material";
 import { FC, useCallback, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { Typography, Grid, CircularProgress } from "@mui/material";
-import { useGetMapsQuery } from "../../../../../services/mapApi";
-import FilterButtons, { FilterOption } from "../../../../FilterButtons/FilterButtons";
-import { useAppSelector } from "../../../../../app/hooks";
-import { selectFilter } from "../../../../FilterButtons/filterButtonsSlice";
-import GameType, { GameTypes } from "../../../../../types/GameTypes.type";
-import ImageCard from "../../../../../components/ImageCard/ImageCard";
-import snakeCase from "../../../../../utils/snakeCase";
+import { useAppSelector } from "../../../app/hooks";
+import ImageCard from "../../../components/ImageCard/ImageCard";
+import FilterButtons, { FilterOption } from "../../../features/FilterButtons/FilterButtons";
+import { selectFilter } from "../../../features/FilterButtons/filterButtonsSlice";
+import { useGetMapsQuery } from "../../../services/mapApi";
+import GameType, { GameTypes } from "../../../types/GameTypes.type";
+
+import { selectMapInitialValues } from "./selectMapValidationSchema";
 
 type SelectMapProps = Record<string, unknown>;
 
 const SelectMap: FC<SelectMapProps> = () => {
   const { setValue, watch, clearErrors } = useFormContext();
-  const selectedCard = watch("map");
+  const cardFieldName = Object.keys(selectMapInitialValues)[0];
+  const selectedCard = watch(cardFieldName);
   const selectedFilter = useAppSelector(selectFilter);
   const { data: maps, isLoading: mapsLoading } = useGetMapsQuery(selectedFilter);
   const gameTypeArray: GameType[] = Object.values(GameTypes);
@@ -21,21 +23,21 @@ const SelectMap: FC<SelectMapProps> = () => {
 
   const handleCardClick = useCallback((id: number) => {
     if (selectedCard === id) {
-      setValue("map", null);
-      clearErrors("map");
+      setValue(cardFieldName, null);
+      clearErrors(cardFieldName);
       return;
     }
 
-    setValue("map", id);
-    clearErrors("map");
+    setValue(cardFieldName, id);
+    clearErrors(cardFieldName);
     return;
-  }, [selectedCard, setValue, clearErrors]);
+  }, [selectedCard, setValue, cardFieldName, clearErrors]);
 
   const filterOptions: FilterOption[] = useMemo(() => gameTypeArray.map((type) => ({ label: type, value: type })), [gameTypeArray]);
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid item xs={12} >
         <Typography variant={"h6"} gutterBottom>
           Select Game Type
         </Typography>
@@ -48,32 +50,44 @@ const SelectMap: FC<SelectMapProps> = () => {
         </Grid>
       )}
       <Grid item xs={12}>
-        <FilterButtons onFilterChange={() => setValue("map", null)} options={filterOptions} />
+        <FilterButtons
+          onFilterChange={() => setValue("map", null)}
+          options={filterOptions}
+        />
       </Grid>
-      <Typography component={Grid} container item
+      <Typography
+        component={Grid}
+        container
+        item
         xs={12}
-        variant={"h6"} gutterBottom
+        variant={"h6"}
+        gutterBottom
       >
         Select Map
       </Typography>
-      <Grid container item xs={12}
+      <Grid
+        container
+        item
+        xs={12}
         spacing={2}
         sx={{ maxHeight: 500, minHeight: 500, overflowY: "auto" }}
       >
         {!mapsLoading && selectedFilter &&
           filteredMaps?.map((map) => {
-            const { name } = map;
+            const { id, name, thumbnail_url } = map;
+            const isSelected = selectedCard === id;
             return (
               <Grid
                 item
                 xs={12}
                 sm={6}
-                key={map.id}
+                key={id}
               >
                 <ImageCard
-                  src={`src/assets/maps/${snakeCase(name)}.webp`}
-                  map={map}
-                  isSelected={selectedCard === map.id}
+                  src={thumbnail_url}
+                  id={id}
+                  name={name}
+                  isSelected={isSelected}
                   onCardClick={handleCardClick}
                 />
               </Grid>

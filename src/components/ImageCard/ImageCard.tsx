@@ -1,31 +1,39 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } from "@mui/material";
-import OverwatchMap from "../../types/OverwatchMap.type";
-import { FC } from "react";
 import useImageCardStyles from "./useImageCardStyles";
+import { FC } from "react";
 
-type ImageCardProps = {
-    src:string
-    map: OverwatchMap;
+interface ImageCardProps {
+    src: string;
     isSelected: boolean;
+    id?: number;
+    name?: string;
     onCardClick: (id: number) => void;
-};
+}
 
-const ImageCard: FC<ImageCardProps> = ({ src, map: { id, name }, isSelected, onCardClick }) => {
+const ImageCard: FC<ImageCardProps> = ({ src, isSelected, id, name, onCardClick }) => {
     const theme = useTheme();
     const classes = useImageCardStyles();
     const { constants: { mediaCardHeight } } = theme;
 
+    const handleCardClick = () => {
+        if (id !== undefined) {
+            onCardClick(id);
+        }
+
+    };
+    const cardText = name || "Unknown Image";
+
     return (
         <Card
-            onClick={() => onCardClick(id)} variant={"outlined"}
+            onClick={handleCardClick}
+            variant={"outlined"}
             css={isSelected ? classes.cardIsSelected : undefined}
         >
             <CardActionArea>
                 <CardMedia
                     height={mediaCardHeight}
                     component={"img"}
-                    alt={name}
-                    // image={`src/assets/maps/${snakeCase(name)}.webp`}
+                    alt={cardText}
                     image={src}
                 />
                 <CardContent>
@@ -36,7 +44,7 @@ const ImageCard: FC<ImageCardProps> = ({ src, map: { id, name }, isSelected, onC
                         gutterBottom
                         variant={"subtitle1"}
                     >
-                        {name}
+                        {cardText}
                     </Typography>
                 </CardContent>
             </CardActionArea>
