@@ -75,6 +75,7 @@ const SelectMap: FC<SelectMapProps> = () => {
         {!mapsLoading && selectedFilter &&
           filteredMaps?.map((map) => {
             const { id, name, thumbnail_url } = map;
+            console.log({ id, name, thumbnail_url });
             const isSelected = selectedCard === id;
             return (
               <Grid
