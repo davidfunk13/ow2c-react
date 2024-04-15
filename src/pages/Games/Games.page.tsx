@@ -1,15 +1,19 @@
 import { Button, Grid, Typography } from "@mui/material";
-import { FC } from "react";
-import { useGetGamesQuery, useStoreGameMutation } from "../../services/gameApi";
 import { DataGrid } from "@mui/x-data-grid";
-import Game from "../../types/Game.interface";
-import gameTableColumns from "./components/gamesTableColumns";
+import { FC } from "react";
 import AppModal from "../../features/AppModal/AppModal";
 import { useAppModal } from "../../features/AppModal/useAppModal";
-import { StepType } from "../../features/MultiStepForm/types";
-import { selectMapInitialValues, selectMapValidationSchema } from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/selectMapValidationSchema";
 import MultiStepForm from "../../features/MultiStepForm/MultiStepForm";
-import SelectMap from "../../features/MultiStepForm/forms/AddGameForm/SelectMap/SelectMap";
+import { StepType } from "../../features/MultiStepForm/types";
+import SelectHero from "../../forms/AddGameForm/SelectHero/SelectHero";
+import { selectHeroInitialValues, selectHeroValidationSchema } from "../../forms/AddGameForm/SelectHero/selectHeroValidationSchema";
+import SelectMap from "../../forms/AddGameForm/SelectMap/SelectMap";
+import { selectMapInitialValues, selectMapValidationSchema } from "../../forms/AddGameForm/SelectMap/selectMapValidationSchema";
+import SelectResult from "../../forms/AddGameForm/SelectResult/SelectResult";
+import { selectResultInitialValues, selectResultValidationSchema } from "../../forms/AddGameForm/SelectResult/selectResultValidationSchema";
+import { useGetGamesQuery, useStoreGameMutation } from "../../services/gameApi";
+import Game from "../../types/Game.interface";
+import gameTableColumns from "./components/gamesTableColumns";
 
 interface GamesPageProps { }
 
@@ -50,6 +54,18 @@ const GamesPage: FC<GamesPageProps> = () => {
             component: SelectMap,
             initialValues: selectMapInitialValues,
             validationSchema: selectMapValidationSchema,
+        },
+        {
+            label: "Select Hero",
+            component: SelectHero,
+            initialValues: selectHeroInitialValues,
+            validationSchema: selectHeroValidationSchema,
+        },
+        {
+            label: "Select Result",
+            component: SelectResult,
+            initialValues: selectResultInitialValues,
+            validationSchema: selectResultValidationSchema,
         }
     ];
 
