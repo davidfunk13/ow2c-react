@@ -5,12 +5,13 @@ import { FC } from "react";
 interface ImageCardProps {
     src: string;
     isSelected: boolean;
-    id?: number;
+    id?: number | string;
     name?: string;
-    onCardClick: (id: number) => void;
+    imageHeight?: number;
+    onCardClick: (id: number | string) => void;
 }
 
-const ImageCard: FC<ImageCardProps> = ({ src, isSelected, id, name, onCardClick }) => {
+const ImageCard: FC<ImageCardProps> = ({ src, isSelected, id, name, onCardClick, imageHeight }) => {
     const theme = useTheme();
     const classes = useImageCardStyles();
     const { constants: { mediaCardHeight } } = theme;
@@ -19,8 +20,8 @@ const ImageCard: FC<ImageCardProps> = ({ src, isSelected, id, name, onCardClick 
         if (id !== undefined) {
             onCardClick(id);
         }
-
     };
+
     const cardText = name || "Unknown Image";
 
     return (
@@ -31,7 +32,8 @@ const ImageCard: FC<ImageCardProps> = ({ src, isSelected, id, name, onCardClick 
         >
             <CardActionArea>
                 <CardMedia
-                    height={mediaCardHeight}
+                    width={imageHeight || mediaCardHeight}
+                    height={imageHeight || mediaCardHeight}
                     component={"img"}
                     alt={cardText}
                     image={src}

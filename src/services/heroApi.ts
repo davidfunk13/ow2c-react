@@ -1,10 +1,10 @@
-import OverwatchHero, { OverwatchHeroType } from "../types/OverwatchHero.type";
+import OverwatchHero, { OverwatchHeroTypeIdEnum } from "../types/OverwatchHero.type";
 import { baseApi } from "./baseApi";
 
 export const heroApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getHeroes: builder.query<{ data: OverwatchHero[] }, OverwatchHeroType | undefined>({
-            query: (heroType) => heroType ? `/api/heroes/${heroType.toLowerCase()}` : "/api/heroes",
+        getHeroes: builder.query<{ data: OverwatchHero[] }, OverwatchHeroTypeIdEnum | undefined>({
+            query: (typeId) => typeId ? `/api/heroes/${typeId}` : "/api/heroes",
             providesTags: ["Hero"],
         })
     }),

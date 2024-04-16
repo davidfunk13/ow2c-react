@@ -2,18 +2,20 @@ import { Grid, Typography } from "@mui/material";
 import { FC, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import ImageCard from "../../../components/ImageCard/ImageCard";
-import { selectResultInitialValues } from "./selectResultValidationSchema";
 import baseURL from "../../../utils/baseUrl";
+import { selectRoleInitialValues } from "./selectRoleValidationSchema";
+import { OverwatchHeroTypeEnum } from "../../../types/OverwatchHero.type";
 
-type SelectResultProps = Record<string, unknown>;
+type SelectRoleProps = Record<string, unknown>;
 
-const SelectResult: FC<SelectResultProps> = () => {
+const SelectRole: FC<SelectRoleProps> = () => {
     const { setValue, watch, clearErrors } = useFormContext();
-    const cardFieldName = Object.keys(selectResultInitialValues)[0];
-    const selectedCard = watch(cardFieldName);
-    const isSelected = useCallback((id: number) => selectedCard === id, [selectedCard]);
+    const cardFieldName = Object.keys(selectRoleInitialValues)[0];
 
-    const handleCardClick = useCallback((id: number | string) => {
+    const selectedCard = watch(cardFieldName);
+    const isSelected = useCallback((id: string | number) => selectedCard === id, [selectedCard]);
+
+    const handleCardClick = useCallback((id: string | number) => {
         if (selectedCard === id) {
             setValue(cardFieldName, null);
             clearErrors(cardFieldName);
@@ -40,7 +42,7 @@ const SelectResult: FC<SelectResultProps> = () => {
                 variant={"h6"}
                 gutterBottom
             >
-                Choose the result of the game
+                Choose the Role you&apos;re playing
             </Typography>
             <Grid
                 container
@@ -53,11 +55,11 @@ const SelectResult: FC<SelectResultProps> = () => {
                     xs={4}
                 >
                     <ImageCard
-                        src={baseURL + "/storage/icons/misc/win.webp"}
-                        id={1}
+                        src={baseURL + "/storage/icons/roles/tank.webp"}
+                        id={OverwatchHeroTypeEnum.Tank.toString()}
+                        name={OverwatchHeroTypeEnum.Tank.toString()}
                         imageHeight={200}
-                        name={"Win"}
-                        isSelected={isSelected(1)}
+                        isSelected={isSelected(OverwatchHeroTypeEnum.Tank)}
                         onCardClick={handleCardClick}
                     />
                 </Grid>
@@ -66,11 +68,11 @@ const SelectResult: FC<SelectResultProps> = () => {
                     xs={4}
                 >
                     <ImageCard
+                        src={baseURL + "/storage/icons/roles/damage.webp"}
+                        id={OverwatchHeroTypeEnum.Damage.toString()}
+                        name={OverwatchHeroTypeEnum.Damage.toString()}
                         imageHeight={200}
-                        src={baseURL + "/storage/icons/misc/loss.webp"}
-                        id={0}
-                        name={"Loss"}
-                        isSelected={isSelected(0)}
+                        isSelected={isSelected(OverwatchHeroTypeEnum.Damage)}
                         onCardClick={handleCardClick}
                     />
                 </Grid>
@@ -79,11 +81,11 @@ const SelectResult: FC<SelectResultProps> = () => {
                     xs={4}
                 >
                     <ImageCard
+                        src={baseURL + "/storage/icons/roles/support.webp"}
+                        id={OverwatchHeroTypeEnum.Support.toString()}
+                        name={OverwatchHeroTypeEnum.Support.toString()}
                         imageHeight={200}
-                        src={baseURL + "/storage/icons/misc/draw.webp"}
-                        id={2}
-                        name={"Draw"}
-                        isSelected={isSelected(2)}
+                        isSelected={isSelected(OverwatchHeroTypeEnum.Support)}
                         onCardClick={handleCardClick}
                     />
                 </Grid>
@@ -92,4 +94,4 @@ const SelectResult: FC<SelectResultProps> = () => {
     );
 };
 
-export default SelectResult;
+export default SelectRole;

@@ -14,6 +14,8 @@ import { selectResultInitialValues, selectResultValidationSchema } from "../../f
 import { useGetGamesQuery, useStoreGameMutation } from "../../services/gameApi";
 import Game from "../../types/Game.interface";
 import gameTableColumns from "./components/gamesTableColumns";
+import SelectRole from "../../forms/AddGameForm/SelectRole/SelectRole";
+import { selectRoleInitialValues, selectRoleValidationSchema } from "../../forms/AddGameForm/SelectRole/selectRoleValidationSchema";
 
 interface GamesPageProps { }
 
@@ -49,6 +51,12 @@ const GamesPage: FC<GamesPageProps> = () => {
     };
 
     const addGameFormSteps: StepType[] = [
+        {
+            label: "Select Role",
+            component: SelectRole,
+            initialValues: selectRoleInitialValues,
+            validationSchema: selectRoleValidationSchema,
+        },
         {
             label: "Select Map",
             component: SelectMap,

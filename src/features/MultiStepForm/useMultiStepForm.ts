@@ -16,7 +16,7 @@ const useMultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) =>
         ),
     });
 
-    const { handleSubmit, formState: { errors } } = methods;
+    const { handleSubmit, getValues,formState: { errors, } } = methods;
     const watchErrors = Object.keys(errors).length > 0;
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const useMultiStepForm = <T,>({ steps, submitAction }: MultiStepFormProps<T>) =>
         }
     }, [currentStep]);
 
-    return { currentStep, hasError, methods, errors, handleSubmit, onSubmit, handleBack };
+    return { currentStep, hasError, methods, errors, handleSubmit, onSubmit, handleBack, getValues  };
 };
 
 export default useMultiStepForm;

@@ -21,7 +21,7 @@ const SelectMap: FC<SelectMapProps> = () => {
   const gameTypeArray: GameType[] = Object.values(GameTypes);
   const filteredMaps = useMemo(() => maps?.data.filter(({ type }) => type === selectedFilter), [maps?.data, selectedFilter]);
 
-  const handleCardClick = useCallback((id: number) => {
+  const handleCardClick = useCallback((id: string | number) => {
     if (selectedCard === id) {
       setValue(cardFieldName, null);
       clearErrors(cardFieldName);
@@ -55,33 +55,25 @@ const SelectMap: FC<SelectMapProps> = () => {
           options={filterOptions}
         />
       </Grid>
-      <Typography
-        component={Grid}
-        container
-        item
-        xs={12}
-        variant={"h6"}
-        gutterBottom
-      >
-        Select Map
-      </Typography>
       <Grid
         container
-        item
-        xs={12}
         spacing={2}
-        sx={{ maxHeight: 500, minHeight: 500, overflowY: "auto" }}
+        item
+        alignItems={"center"}
+        xs={12}
+        maxHeight={500}
+        minHeight={500}
+        overflow={"auto"}
       >
         {!mapsLoading && selectedFilter &&
           filteredMaps?.map((map) => {
             const { id, name, thumbnail_url } = map;
-            console.log({ id, name, thumbnail_url });
             const isSelected = selectedCard === id;
+
             return (
               <Grid
                 item
-                xs={12}
-                sm={6}
+                sm={4}
                 key={id}
               >
                 <ImageCard

@@ -8,12 +8,14 @@ import { selectHeroInitialValues } from "./selectHeroValidationSchema";
 type SelectHeroProps = Record<string, unknown>;
 
 const SelectHero: FC<SelectHeroProps> = () => {
-  const { setValue, watch, clearErrors } = useFormContext();
+  const { setValue, watch, clearErrors, getValues } = useFormContext();
+  const formValues = getValues();
+  const { role } = formValues;
   const cardFieldName = Object.keys(selectHeroInitialValues)[0];
   const selectedCard = watch(cardFieldName);
-  const { data: heroes, isLoading: heroesLoading } = useGetHeroesQuery("Damage");
+  const { data: heroes, isLoading: heroesLoading, } = useGetHeroesQuery(role.toLowerCase(), { skip: !role });
 
-  const handleCardClick = useCallback((id: number) => {
+  const handleCardClick = useCallback((id: number | string) => {
     if (selectedCard === id) {
       setValue(cardFieldName, null);
       clearErrors(cardFieldName);
@@ -29,7 +31,7 @@ const SelectHero: FC<SelectHeroProps> = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant={"h6"} gutterBottom >
-          Select Game Type
+          Select Hero
         </Typography>
       </Grid>
       {heroesLoading && (
@@ -39,19 +41,10 @@ const SelectHero: FC<SelectHeroProps> = () => {
           </Grid>
         </Grid>
       )}
-      <Typography
-        component={Grid}
-        container
-        item
-        xs={12}
-        variant={"h6"}
-        gutterBottom
-      >
-        Select Map
-      </Typography>
       <Grid
         container
         item
+        display={"flex"}
         xs={12}
         spacing={2}
         maxHeight={500}
@@ -64,8 +57,8 @@ const SelectHero: FC<SelectHeroProps> = () => {
           return (
             <Grid
               item
-              xs={12}
-              sm={6}
+              sm={"auto"}
+              flexGrow={1}
               key={id}
             >
               <ImageCard
